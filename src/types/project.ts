@@ -1,9 +1,25 @@
-export interface Project {
+export interface Work {
   id: string;
   title: string;
-  description: string;
-  producer: string;
-  images: string[];
-  videoUrl: string;
-  year?: string | number;
+  client: string;
+  role: string;
+  year?: string;
+  videoSrc?: string;
+  videoEmbedUrl?: string;
+  thumbnailUrl: string;
+  featured?: boolean;
+}
+
+export interface Award {
+  id: string;
+  title: string;
+  project: string;
+  year?: string;
+}
+
+export interface Brand {
+  id: string;
+  name: string;
+  logoSrc: string;
+  logoScale?: number;
 }

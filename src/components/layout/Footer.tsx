@@ -10,9 +10,9 @@ export default function Footer() {
           <span className="font-serif text-lg">{PRODUCER_NAME}</span>
           {/* PLACEHOLDER: e-mail, telefone e redes sociais fictícios, substituir pelos reais. */}
           <p className="text-sm text-muted">
-            contato@anaficticia.com.br &middot; @brurodriguezz
+            brunarodriguez_@hotmail.com &middot; @brurodriguezz
           </p>
-          <p className="text-sm text-muted">+55 (13) 99999-9999</p>
+          <p className="text-sm text-muted">+55 (13) 99116-4282</p>
         </div>
         <p className="text-xs text-muted">
           &copy; {year} {PRODUCER_NAME}. Todos os direitos reservados.

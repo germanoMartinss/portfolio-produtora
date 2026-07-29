@@ -9,7 +9,7 @@ export default function Header() {
           {PRODUCER_NAME}
         </span>
         <a
-          href="mailto:contato@anaficticia.com.br"
+          href="mailto:brunarodriguez_@hotmail.com"
           className="text-xs font-medium uppercase tracking-[0.2em] text-muted transition-colors hover:text-accent"
         >
           Contato

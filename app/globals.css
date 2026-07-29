@@ -1,15 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fafaf8;
-  --foreground: #1a1a1a;
-  --muted: #6b6b65;
-  --accent: #b5651d;
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --muted: #6b6b6b;
 
-  /* Tons pastel para a decoração de fundo, derivados da paleta principal. */
-  --deco-terracota: #e7c6ae;
-  --deco-oliva: #c3cbb2;
-  --deco-azul: #bfd0d6;
+  --accent-blue: #2563eb;
+  --accent-pink: #ec4899;
+  --accent: var(--accent-blue);
 }
 
 @theme inline {
@@ -17,6 +15,8 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-accent: var(--accent);
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-pink: var(--accent-pink);
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
 }
