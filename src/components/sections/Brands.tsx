@@ -47,7 +47,10 @@ export default function Brands() {
             >
               <div
                 className="relative h-full w-full"
-                style={{ transform: `scale(${brand.logoScale ?? 1})` }}
+                style={{
+                  transform: `scale(${brand.logoScale ?? 1})`,
+                  clipPath: brand.clipPath,
+                }}
               >
                 <Image
                   src={brand.logoSrc}

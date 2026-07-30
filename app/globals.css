@@ -6,7 +6,6 @@
   --muted: #6b6b6b;
 
   --accent-blue: #2563eb;
-  --accent-pink: #ec4899;
   --accent: var(--accent-blue);
 }
 
@@ -16,7 +15,6 @@
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-blue: var(--accent-blue);
-  --color-accent-pink: var(--accent-pink);
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
 }

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import BackgroundDecoration from "@/components/ui/BackgroundDecoration";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -34,7 +33,6 @@ export default function RootLayout({
       className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
-        <BackgroundDecoration />
         <Header />
         {children}
         <Footer />

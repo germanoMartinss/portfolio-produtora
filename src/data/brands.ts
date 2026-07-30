@@ -2,7 +2,7 @@ import { Brand } from "@/types/project";
 
 export const brands: Brand[] = [
   { id: "copag", name: "Copag", logoSrc: "/logos/copag.png" },
-  { id: "mary-kay", name: "Mary Kay", logoSrc: "/logos/mary-kay.png", logoScale: 1.5 },
+  { id: "mary-kay", name: "Mary Kay", logoSrc: "/logos/mary-kay.png", logoScale: 1.3 },
   {
     id: "estrella-galicia",
     name: "Estrella Galicia",
@@ -14,7 +14,7 @@ export const brands: Brand[] = [
     id: "hospital-albert-einstein",
     name: "Hospital Albert Einstein",
     logoSrc: "/logos/hospital-albert-einstein.png",
-    logoScale: 1.6,
+    logoScale: 1.25,
   },
   { id: "santa-helena", name: "Santa Helena", logoSrc: "/logos/santa-helena.png" },
   { id: "galapagos", name: "Galápagos", logoSrc: "/logos/galapagos.svg" },
@@ -22,6 +22,9 @@ export const brands: Brand[] = [
     id: "sistema-anglo-de-ensino",
     name: "Sistema Anglo de Ensino",
     logoSrc: "/logos/sistema-anglo-de-ensino.jpg",
+    logoScale: 1.08,
+    // PLACEHOLDER: recorta o fundo quadriculado "queimado" do JPG; substituir pelo PNG com fundo transparente real.
+    clipPath: "circle(48% at 50% 50%)",
   },
   { id: "aunt-jackies", name: "Aunt Jackie's", logoSrc: "/logos/aunt-jackies.png" },
   { id: "starbucks", name: "Starbucks", logoSrc: "/logos/starbucks.png" },

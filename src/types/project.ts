@@ -22,4 +22,13 @@ export interface Brand {
   name: string;
   logoSrc: string;
   logoScale?: number;
+  clipPath?: string;
+}
+
+export interface FeaturedVideo {
+  id: string;
+  title: string;
+  badge?: string;
+  embedUrl: string;
+  thumbnailUrl: string;
 }
