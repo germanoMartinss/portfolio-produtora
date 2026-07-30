@@ -1,5 +1,9 @@
 import { Work } from "@/types/project";
 
+// Lista completa de trabalhos usada pela seção FeaturedWorks.tsx (o
+// "portfólio de vídeos" original, não usado na home atual — ver comentário
+// em FeaturedWorks.tsx). "featured: true" marca os trabalhos exibidos em
+// destaque (cards grandes); os demais aparecem numa grade compacta.
 export const works: Work[] = [
   {
     id: "demonio-de-maxwell",

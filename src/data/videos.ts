@@ -1,5 +1,8 @@
 import { FeaturedVideo } from "@/types/project";
 
+// Vídeos exibidos na seção "Vídeos em Destaque" (FeaturedVideos.tsx).
+// "embedUrl" é a URL de embed do player (YouTube/Vimeo), sem parâmetros —
+// o componente VideoLightbox adiciona "?autoplay=1" na hora de abrir.
 export const featuredVideos: FeaturedVideo[] = [
   {
     id: "einstein-retratos-pandemia",
@@ -24,6 +27,7 @@ export const featuredVideos: FeaturedVideo[] = [
   },
 ];
 
+// Vídeos exibidos na seção "Direção de Cena e Depoimentos" (BehindTheScenes.tsx).
 export const behindTheScenesVideos: FeaturedVideo[] = [
   {
     id: "einstein-nossa-historia",
@@ -49,6 +53,8 @@ export const behindTheScenesVideos: FeaturedVideo[] = [
   },
 ];
 
+// Trailer do filme "Demônio de Maxwell", usado na seção AwardsWithTrailer.tsx
+// (ao lado da lista de prêmios). Hospedado no Vimeo.
 export const trailerVideo: FeaturedVideo = {
   id: "demonio-de-maxwell-trailer",
   title: "Demônio de Maxwell",

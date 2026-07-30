@@ -1,5 +1,9 @@
 import { Brand } from "@/types/project";
 
+// Lista de marcas exibida na seção "Marcas com quem já trabalhei"
+// (src/components/sections/Brands.tsx). Os arquivos de logo ficam em
+// public/logos/. "logoScale" ajusta o zoom individual de cada logo (alguns
+// arquivos têm mais espaço em branco ao redor que outros).
 export const brands: Brand[] = [
   { id: "copag", name: "Copag", logoSrc: "/logos/copag.png" },
   { id: "mary-kay", name: "Mary Kay", logoSrc: "/logos/mary-kay.png", logoScale: 1.3 },

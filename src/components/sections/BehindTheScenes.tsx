@@ -16,6 +16,9 @@ const container = {
   },
 };
 
+// Seção "Direção de Cena e Depoimentos": mesmo padrão visual de card da
+// seção FeaturedVideos, mas contida em max-w-6xl (não full-bleed) —
+// diferença intencional entre as duas seções de vídeo da home.
 export default function BehindTheScenes() {
   const [activeVideo, setActiveVideo] = useState<FeaturedVideo | null>(null);
 

@@ -3,22 +3,32 @@
 import { motion } from "framer-motion";
 import { PRODUCER_NAME } from "@/lib/site";
 
+// Separa "Bruna Rodriguez" em primeiro nome / sobrenome para exibir o
+// título em duas linhas (ver <h1> abaixo).
 const [firstName, ...restName] = PRODUCER_NAME.split(" ");
 const lastName = restName.join(" ");
 
+// Números de destaque mostrados como selos abaixo da bio.
 const HIGHLIGHTS = [
   "10+ anos de experiência",
   "2 filmes premiados",
   "20+ marcas atendidas",
 ];
 
+// Pequeno helper para destacar o nome de uma marca dentro do parágrafo de
+// bio (deixa o texto em negrito, sem usar cor, para não competir com o
+// azul de destaque usado em outros elementos da página).
 function Brand({ children }: { children: string }) {
   return <span className="font-semibold">{children}</span>;
 }
 
+// Seção de topo da home: banner full-bleed (ocupa a largura toda da tela)
+// dividido em duas colunas — nome à esquerda, bio + selos à direita.
 export default function Hero() {
   return (
     <section className="grid w-full grid-cols-1 lg:min-h-[560px] lg:grid-cols-2">
+      {/* Coluna esquerda: nome em destaque, com borda direita separando
+          visualmente das duas colunas em telas grandes. */}
       <div className="flex flex-col items-start gap-6 border-black/8 px-6 pb-12 pt-12 sm:px-16 sm:pt-16 lg:border-r">
         <h1 className="font-serif text-[clamp(48px,6vw,80px)] font-semibold leading-[1.05] tracking-tight">
           {firstName}
@@ -27,6 +37,7 @@ export default function Hero() {
         </h1>
       </div>
 
+      {/* Coluna direita: bio (com animação de entrada) + selos numéricos. */}
       <div className="flex flex-col items-start gap-8 px-6 pb-12 pt-12 sm:px-16 sm:pt-16">
         <motion.div
           initial={{ opacity: 0, y: 36 }}
@@ -51,6 +62,8 @@ export default function Hero() {
           </p>
         </motion.div>
 
+        {/* Selos com números de destaque — estilo discreto (contorno azul,
+            fundo branco), sem cor sólida, para não parecerem botões. */}
         <div className="flex flex-wrap gap-3">
           {HIGHLIGHTS.map((highlight) => (
             <span

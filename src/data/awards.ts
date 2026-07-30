@@ -1,5 +1,8 @@
 import { Award } from "@/types/project";
 
+// Lista de prêmios exibida na seção "Prêmios e Reconhecimentos"
+// (src/components/sections/AwardsWithTrailer.tsx). Para adicionar um novo
+// prêmio, basta incluir um novo objeto neste array.
 export const awards: Award[] = [
   {
     id: "gold-movie-award",

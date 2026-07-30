@@ -1,6 +1,9 @@
 import { PRODUCER_NAME } from "@/lib/site";
 
+// Rodapé fixo no fim de toda página (montado em app/layout.tsx).
+// Mostra nome, contatos e o aviso de copyright com o ano atual.
 export default function Footer() {
+  // Calcula o ano atual dinamicamente, para o copyright nunca ficar desatualizado.
   const year = new Date().getFullYear();
 
   return (

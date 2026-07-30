@@ -19,6 +19,10 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as const } },
 };
 
+// Versão original da seção de prêmios: grid de cards com ícone de troféu.
+// Não é usada na home atual (substituída por AwardsWithTrailer.tsx, que
+// combina esta lista com o trailer do filme ao lado). Mantida no código
+// para preservar o histórico do design anterior.
 export default function Awards() {
   return (
     <section className="mx-auto w-full max-w-6xl px-6 py-10 sm:px-12 sm:py-14">

@@ -4,16 +4,22 @@ import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 interface VideoLightboxProps {
+  // URL de embed do player (YouTube, Vimeo, Google Drive) SEM o parâmetro
+  // de autoplay — este componente adiciona "?autoplay=1" automaticamente.
   embedUrl: string;
   title: string;
   onClose: () => void;
 }
 
+// Modal em tela cheia que reproduz um vídeo dentro de um <iframe>.
+// Usado por todas as seções que têm cards de vídeo clicáveis (Vídeos em
+// Destaque, Prêmios + Trailer, Direção de Cena e Depoimentos, etc.).
 export default function VideoLightbox({
   embedUrl,
   title,
   onClose,
 }: VideoLightboxProps) {
+  // Permite fechar o modal apertando a tecla Esc.
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") onClose();
@@ -25,6 +31,7 @@ export default function VideoLightbox({
 
   return (
     <AnimatePresence>
+      {/* Fundo escuro cobrindo a tela toda. Clicar nele fecha o modal. */}
       <motion.div
         key="video-lightbox-backdrop"
         initial={{ opacity: 0 }}
@@ -43,6 +50,8 @@ export default function VideoLightbox({
           &times;
         </button>
 
+        {/* Caixa do vídeo em si. stopPropagation evita que um clique aqui
+            dentro feche o modal (só clicar fora, no fundo escuro, fecha). */}
         <motion.div
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}

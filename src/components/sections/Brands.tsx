@@ -18,6 +18,8 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
+// Última seção da home: grade de logos das marcas atendidas, sobre um
+// fundo escuro (bg-foreground) para destacar os logos brancos/coloridos.
 export default function Brands() {
   return (
     <section className="w-full bg-foreground py-10 sm:py-14">
@@ -40,6 +42,8 @@ export default function Brands() {
           className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5"
         >
           {brands.map((brand) => (
+            // Cada logo fica num cartão branco (os arquivos de logo em si
+            // costumam ter fundo transparente ou variar de proporção).
             <motion.div
               key={brand.id}
               variants={item}
@@ -48,7 +52,14 @@ export default function Brands() {
               <div
                 className="relative h-full w-full"
                 style={{
+                  // logoScale ajusta o zoom de cada logo individualmente
+                  // (alguns arquivos vêm com bastante espaço em branco ao
+                  // redor e ficam pequenos demais sem esse ajuste).
                   transform: `scale(${brand.logoScale ?? 1})`,
+                  // clipPath recorta a imagem numa forma específica — usado
+                  // no logo do Sistema Anglo de Ensino para esconder um
+                  // fundo quadriculado indesejado no arquivo JPG original
+                  // (ver comentário em src/data/brands.ts).
                   clipPath: brand.clipPath,
                 }}
               >

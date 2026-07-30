@@ -8,6 +8,7 @@ import { awards } from "@/data/awards";
 import { trailerVideo } from "@/data/videos";
 import VideoLightbox from "@/components/project/VideoLightbox";
 
+// Animações do container (lista de prêmios) e de cada item individual.
 const container = {
   hidden: {},
   show: {
@@ -22,11 +23,16 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
 
+// Seção "Prêmios e Reconhecimentos": lista de prêmios à esquerda e o
+// trailer do filme "Demônio de Maxwell" à direita, lado a lado.
 export default function AwardsWithTrailer() {
+  // Controla se o modal do trailer está aberto.
   const [trailerOpen, setTrailerOpen] = useState(false);
 
   return (
     <section className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-16 sm:py-20">
+      {/* Grid com 2 colunas desiguais: lista de prêmios um pouco mais larga
+          (1.1fr) que a coluna do trailer (0.9fr). */}
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="flex flex-col">
           <div className="mb-6 flex flex-col gap-3">
@@ -38,6 +44,10 @@ export default function AwardsWithTrailer() {
             </h2>
           </div>
 
+          {/* Lista de prêmios: cada item é separado por uma linha fina no
+              topo (border-t), estilo editorial, sem cards com fundo/borda
+              arredondada. "flex-1" faz esta lista esticar para preencher
+              a mesma altura da coluna do trailer ao lado. */}
           <motion.div
             variants={container}
             initial="hidden"
@@ -66,6 +76,10 @@ export default function AwardsWithTrailer() {
           </motion.div>
         </div>
 
+        {/* Card do trailer: a imagem usa "flex-1" (sem aspect-ratio fixo)
+            para esticar exatamente até a altura da lista de prêmios ao lado,
+            em qualquer largura de tela — por isso o card também é
+            "h-full" (ocupa toda a altura da célula do grid). */}
         <motion.button
           type="button"
           onClick={() => setTrailerOpen(true)}

@@ -6,9 +6,15 @@ import { Work } from "@/types/project";
 import WorkCard from "@/components/project/WorkCard";
 import VideoLightbox from "@/components/project/VideoLightbox";
 
+// Versão original do "portfólio de trabalhos" (grid de vídeos com
+// cliente/papel/ano, usando src/data/works.ts). Não está mais na home
+// atual (substituída pelas seções FeaturedVideos + BehindTheScenes), mas é
+// mantida no código para preservar o histórico do design anterior.
 export default function FeaturedWorks() {
   const [activeWork, setActiveWork] = useState<Work | null>(null);
 
+  // Separa os trabalhos marcados como "featured" (exibidos em destaque,
+  // cards grandes) dos demais (exibidos em grade compacta).
   const featuredWorks = works.filter((work) => work.featured);
   const otherWorks = works.filter((work) => !work.featured);
 
@@ -53,6 +59,9 @@ export default function FeaturedWorks() {
 
       {activeWork && (
         <VideoLightbox
+          // Alguns trabalhos antigos usam "videoSrc" em vez de
+          // "videoEmbedUrl" — o fallback (??) garante que o lightbox
+          // sempre receba alguma URL.
           embedUrl={activeWork.videoEmbedUrl ?? activeWork.videoSrc ?? ""}
           title={activeWork.title}
           onClose={() => setActiveWork(null)}
