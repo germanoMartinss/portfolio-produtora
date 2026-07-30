@@ -15,7 +15,6 @@ const PARAGRAPHS = [
 // Seção "Minha História": texto biográfico completo à esquerda, foto à
 // direita. A foto usa "sticky" para acompanhar o scroll enquanto o texto
 // (mais alto) rola por baixo dela.
-// PLACEHOLDER: reaproveitando a foto do Hero até termos a foto real desta seção.
 export default function MyStory() {
   return (
     <section className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-16 sm:py-20">
@@ -53,7 +52,7 @@ export default function MyStory() {
           className="sticky top-24 aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black/5"
         >
           <Image
-            src="/images/bruna-hero.png"
+            src="/images/bruna-hero-pb.jpeg"
             alt={`Foto de ${PRODUCER_NAME}`}
             fill
             sizes="(min-width: 1024px) 40vw, 100vw"

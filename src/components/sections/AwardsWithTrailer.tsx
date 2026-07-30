@@ -76,10 +76,13 @@ export default function AwardsWithTrailer() {
           </motion.div>
         </div>
 
-        {/* Card do trailer: a imagem usa "flex-1" (sem aspect-ratio fixo)
-            para esticar exatamente até a altura da lista de prêmios ao lado,
-            em qualquer largura de tela — por isso o card também é
-            "h-full" (ocupa toda a altura da célula do grid). */}
+        {/* Card do trailer: a partir de "lg" a imagem usa "flex-1" (sem
+            aspect-ratio fixo) para esticar exatamente até a altura da lista
+            de prêmios ao lado — isso depende do grid de 2 colunas do
+            desktop, que dá uma altura de referência para o "flex-1"
+            preencher. No mobile o grid vira 1 coluna e não existe essa
+            altura de referência, então usamos um aspect-ratio fixo
+            (aspect-[3/4]) para a imagem não colapsar para 0px. */}
         <motion.button
           type="button"
           onClick={() => setTrailerOpen(true)}
@@ -87,9 +90,9 @@ export default function AwardsWithTrailer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="group flex h-full flex-col gap-3 text-left"
+          className="group flex flex-col gap-3 text-left lg:h-full"
         >
-          <div className="relative w-full flex-1 overflow-hidden bg-foreground">
+          <div className="relative aspect-[3/4] w-full overflow-hidden bg-foreground lg:aspect-auto lg:flex-1">
             <Image
               src={trailerVideo.thumbnailUrl}
               alt={`Trailer ${trailerVideo.title}`}
