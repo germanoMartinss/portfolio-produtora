@@ -1,5 +1,6 @@
 import Hero from "@/components/sections/Hero";
 import FeaturedVideos from "@/components/sections/FeaturedVideos";
+import Bio from "@/components/sections/Bio";
 import AwardsWithTrailer from "@/components/sections/AwardsWithTrailer";
 import MyStory from "@/components/sections/MyStory";
 import BehindTheScenes from "@/components/sections/BehindTheScenes";
@@ -13,6 +14,7 @@ export default function Home() {
     <main className="flex flex-1 flex-col">
       <Hero />
       <FeaturedVideos />
+      <Bio />
       <AwardsWithTrailer />
       <MyStory />
       <BehindTheScenes />
