@@ -28,9 +28,27 @@ export default function Hero() {
   return (
     <section className="grid w-full grid-cols-1 lg:min-h-[560px] lg:grid-cols-2">
       {/* Coluna esquerda: nome em destaque, com borda direita separando
-          visualmente das duas colunas em telas grandes. */}
-      <div className="flex flex-col items-start gap-6 border-black/8 px-6 pb-12 pt-12 sm:px-16 sm:pt-16 lg:border-r">
-        <h1 className="font-serif text-[clamp(48px,6vw,80px)] font-semibold leading-[1.05] tracking-tight">
+          visualmente das duas colunas em telas grandes. Ao lado do nome,
+          um card com vídeo vertical em loop (mudo, sem controles) a
+          pedido da cliente. */}
+      <div className="flex flex-col items-start gap-8 border-black/8 px-6 pb-12 pt-12 sm:flex-row sm:px-16 sm:pt-16 lg:border-r">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="aspect-[9/16] w-40 shrink-0 overflow-hidden rounded-2xl shadow-lg sm:h-72 sm:w-auto md:h-80 lg:h-96"
+        >
+          <video
+            src="/video/video-prod.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover"
+          />
+        </motion.div>
+
+        <h1 className="font-serif text-[clamp(40px,6vw,80px)] font-semibold leading-[1.05] tracking-tight">
           {firstName}
           <br />
           {lastName}
