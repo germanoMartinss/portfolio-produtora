@@ -17,7 +17,7 @@ const PARAGRAPHS = [
 // (mais alto) rola por baixo dela.
 export default function MyStory() {
   return (
-    <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-20">
+    <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-14">
       {/* items-start (em vez de "center") é importante aqui: com um texto
           longo, centralizar verticalmente causaria sobreposição visual com
           a seção seguinte da página. */}

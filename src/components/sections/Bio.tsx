@@ -22,7 +22,7 @@ function Brand({ children }: { children: string }) {
 // à direita. Fica logo acima de "Prêmios e Reconhecimentos" na home.
 export default function Bio() {
   return (
-    <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-20">
+    <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-14">
       <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
