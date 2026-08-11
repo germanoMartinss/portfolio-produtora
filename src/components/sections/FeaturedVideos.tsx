@@ -26,7 +26,7 @@ export default function FeaturedVideos() {
   const [activeVideo, setActiveVideo] = useState<FeaturedVideo | null>(null);
 
   return (
-    <section id="trabalhos" className="w-full px-6 py-16 sm:py-20">
+    <section id="trabalhos" className="w-full px-6 py-8 sm:py-20">
       {/* Cabeçalho centralizado da seção. */}
       <div className="mx-auto mb-10 flex max-w-xl flex-col items-center gap-3 text-center">
         <p className="text-xs font-medium uppercase tracking-widest text-accent">

@@ -30,7 +30,7 @@ export default function AwardsWithTrailer() {
   const [trailerOpen, setTrailerOpen] = useState(false);
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-16 sm:py-20">
+    <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-20">
       {/* Grid com 2 colunas desiguais: lista de prêmios um pouco mais larga
           (1.1fr) que a coluna do trailer (0.9fr). */}
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_0.9fr]">

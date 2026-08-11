@@ -23,7 +23,7 @@ export default function BehindTheScenes() {
   const [activeVideo, setActiveVideo] = useState<FeaturedVideo | null>(null);
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-16 sm:py-20">
+    <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-20">
       <div className="mb-10 flex flex-col gap-3">
         <p className="text-xs font-medium uppercase tracking-widest text-accent">
           Bastidores

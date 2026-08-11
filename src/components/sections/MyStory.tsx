@@ -17,7 +17,7 @@ const PARAGRAPHS = [
 // (mais alto) rola por baixo dela.
 export default function MyStory() {
   return (
-    <section className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-16 sm:py-20">
+    <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-20">
       {/* items-start (em vez de "center") é importante aqui: com um texto
           longo, centralizar verticalmente causaria sobreposição visual com
           a seção seguinte da página. */}
@@ -27,7 +27,7 @@ export default function MyStory() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col gap-5"
+          className="flex flex-col gap-5 lg:order-2"
         >
           <p className="text-xs font-medium uppercase tracking-widest text-accent">
             Trajetória
@@ -49,7 +49,7 @@ export default function MyStory() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="sticky top-24 aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black/5"
+          className="sticky top-24 aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black/5 lg:order-1"
         >
           <Image
             src="/images/bruna-hero-pb.jpeg"

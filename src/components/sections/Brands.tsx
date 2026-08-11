@@ -22,7 +22,7 @@ const item = {
 // fundo escuro (bg-foreground) para destacar os logos brancos/coloridos.
 export default function Brands() {
   return (
-    <section className="w-full bg-foreground py-10 sm:py-14">
+    <section className="w-full bg-foreground py-8 sm:py-14">
       <div className="mx-auto w-full max-w-6xl px-6 sm:px-12">
         <div className="mb-6 flex flex-col gap-3">
           <span className="h-1.5 w-12 rounded-full bg-accent-blue" aria-hidden="true" />

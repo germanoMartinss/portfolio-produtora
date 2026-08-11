@@ -25,7 +25,7 @@ const item = {
 // para preservar o histórico do design anterior.
 export default function Awards() {
   return (
-    <section className="mx-auto w-full max-w-6xl px-6 py-10 sm:px-12 sm:py-14">
+    <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-12 sm:py-14">
       <div className="mb-6 flex flex-col gap-3">
         <p className="text-xs font-medium uppercase tracking-widest text-accent">
           Reconhecimento

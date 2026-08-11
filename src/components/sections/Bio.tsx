@@ -22,14 +22,14 @@ function Brand({ children }: { children: string }) {
 // à direita. Fica logo acima de "Prêmios e Reconhecimentos" na home.
 export default function Bio() {
   return (
-    <section className="mx-auto w-full max-w-6xl px-6 py-16 sm:px-16 sm:py-20">
+    <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-20">
       <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black/5"
+          className="order-2 aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black/5 lg:order-1"
         >
           <Image
             src="/images/bruna-bio.jpeg"
@@ -46,7 +46,7 @@ export default function Bio() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col gap-8"
+          className="order-1 flex flex-col gap-8 lg:order-2"
         >
           <div className="flex flex-col gap-3">
             <p className="text-xs font-medium uppercase tracking-widest text-accent">

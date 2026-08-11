@@ -19,7 +19,7 @@ export default function FeaturedWorks() {
   const otherWorks = works.filter((work) => !work.featured);
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-6 py-10 sm:px-12 sm:py-14">
+    <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-12 sm:py-14">
       <div className="mb-6 flex flex-col gap-3">
         <span className="h-1.5 w-12 rounded-full bg-accent-blue" aria-hidden="true" />
         <p className="text-xs font-medium uppercase tracking-widest text-accent">
