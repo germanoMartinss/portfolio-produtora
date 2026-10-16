@@ -19,9 +19,8 @@ export interface Brand {
   logoSrc: string;
   // Zoom aplicado ao logo individualmente (padrão: 1, sem zoom).
   logoScale?: number;
-  // Recorte CSS (clip-path) opcional, usado para esconder partes
-  // indesejadas de um arquivo de logo (ver Sistema Anglo de Ensino em
-  // src/data/brands.ts).
+  // Recorte CSS (clip-path) opcional, para esconder partes indesejadas
+  // de um arquivo de logo.
   clipPath?: string;
 }
 

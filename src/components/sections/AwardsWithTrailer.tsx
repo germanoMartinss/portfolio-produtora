@@ -1,34 +1,12 @@
-"use client";
-
-import { useState } from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { Play } from "lucide-react";
 import { awards } from "@/data/awards";
 import { trailerVideo } from "@/data/videos";
-import VideoLightbox from "@/components/project/VideoLightbox";
-
-// Animações do container (lista de prêmios) e de cada item individual.
-const container = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
-};
+import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import TrailerCard from "@/components/project/TrailerCard";
 
 // Seção "Prêmios e Reconhecimentos": lista de prêmios à esquerda e o
 // trailer do filme "Demônio de Maxwell" à direita, lado a lado.
+// Server Component: só o card do trailer (TrailerCard) tem estado.
 export default function AwardsWithTrailer() {
-  // Controla se o modal do trailer está aberto.
-  const [trailerOpen, setTrailerOpen] = useState(false);
-
   return (
     <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-14">
       {/* Grid com 2 colunas desiguais: lista de prêmios um pouco mais larga
@@ -48,17 +26,10 @@ export default function AwardsWithTrailer() {
               topo (border-t), estilo editorial, sem cards com fundo/borda
               arredondada. "flex-1" faz esta lista esticar para preencher
               a mesma altura da coluna do trailer ao lado. */}
-          <motion.div
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            className="flex flex-1 flex-col"
-          >
+          <RevealGroup stagger={0.08} className="flex flex-1 flex-col">
             {awards.map((award) => (
-              <motion.div
+              <RevealItem
                 key={award.id}
-                variants={item}
                 className="flex flex-col gap-2 border-t border-black/8 py-5"
               >
                 <h3 className="font-serif text-base font-medium leading-snug">
@@ -71,59 +42,13 @@ export default function AwardsWithTrailer() {
                     {award.year}
                   </p>
                 )}
-              </motion.div>
+              </RevealItem>
             ))}
-          </motion.div>
+          </RevealGroup>
         </div>
 
-        {/* Card do trailer: a partir de "lg" a imagem usa "flex-1" (sem
-            aspect-ratio fixo) para esticar exatamente até a altura da lista
-            de prêmios ao lado — isso depende do grid de 2 colunas do
-            desktop, que dá uma altura de referência para o "flex-1"
-            preencher. No mobile o grid vira 1 coluna e não existe essa
-            altura de referência, então usamos um aspect-ratio fixo
-            (aspect-[3/4]) para a imagem não colapsar para 0px. */}
-        <motion.button
-          type="button"
-          onClick={() => setTrailerOpen(true)}
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="group flex flex-col gap-3 text-left lg:h-full"
-        >
-          <div className="relative aspect-[3/4] w-full overflow-hidden bg-foreground lg:aspect-auto lg:flex-1">
-            <Image
-              src={trailerVideo.thumbnailUrl}
-              alt={`Trailer ${trailerVideo.title}`}
-              fill
-              sizes="(min-width: 1024px) 40vw, 100vw"
-              className="object-cover opacity-75 transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white/90 shadow-lg">
-                <Play
-                  className="ml-0.5 h-6 w-6 text-foreground"
-                  fill="currentColor"
-                  strokeWidth={0}
-                />
-              </span>
-            </div>
-          </div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-accent">
-            {trailerVideo.badge}
-          </p>
-          <p className="font-serif text-lg font-medium">{trailerVideo.title}</p>
-        </motion.button>
+        <TrailerCard video={trailerVideo} />
       </div>
-
-      {trailerOpen && (
-        <VideoLightbox
-          embedUrl={trailerVideo.embedUrl}
-          title={`${trailerVideo.title} — Trailer`}
-          onClose={() => setTrailerOpen(false)}
-        />
-      )}
     </section>
   );
 }

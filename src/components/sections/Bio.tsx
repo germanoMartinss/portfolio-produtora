@@ -1,7 +1,5 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
+import { Reveal } from "@/components/motion/Reveal";
 import { PRODUCER_NAME } from "@/lib/site";
 
 // Números de destaque mostrados como selos abaixo da bio.
@@ -24,12 +22,7 @@ export default function Bio() {
   return (
     <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-14">
       <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="order-2 aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black/5 lg:order-1"
+        <Reveal className="order-2 aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black/5 lg:order-1"
         >
           <Image
             src="/images/bruna-bio.jpeg"
@@ -39,14 +32,9 @@ export default function Bio() {
             sizes="(min-width: 1024px) 40vw, 100vw"
             className="h-full w-full object-cover"
           />
-        </motion.div>
+        </Reveal>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="order-1 flex flex-col gap-8 lg:order-2"
+        <Reveal className="order-1 flex flex-col gap-8 lg:order-2"
         >
           <div className="flex flex-col gap-3">
             <p className="text-xs font-medium uppercase tracking-widest text-accent">
@@ -88,7 +76,7 @@ export default function Bio() {
               </span>
             ))}
           </div>
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );

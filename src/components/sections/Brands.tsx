@@ -1,22 +1,6 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { brands } from "@/data/brands";
-
-const container = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.06,
-    },
-  },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
-};
+import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 
 // Última seção da home: grade de logos das marcas atendidas, sobre um
 // fundo escuro (bg-foreground) para destacar os logos brancos/coloridos.
@@ -34,19 +18,15 @@ export default function Brands() {
           </h2>
         </div>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+        <RevealGroup
+          stagger={0.06}
           className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5"
         >
           {brands.map((brand) => (
             // Cada logo fica num cartão branco (os arquivos de logo em si
             // costumam ter fundo transparente ou variar de proporção).
-            <motion.div
+            <RevealItem
               key={brand.id}
-              variants={item}
               className="flex h-24 items-center justify-center rounded-xl bg-white p-6 shadow-md transition-transform duration-300 hover:-translate-y-1 sm:h-28"
             >
               <div
@@ -56,10 +36,9 @@ export default function Brands() {
                   // (alguns arquivos vêm com bastante espaço em branco ao
                   // redor e ficam pequenos demais sem esse ajuste).
                   transform: `scale(${brand.logoScale ?? 1})`,
-                  // clipPath recorta a imagem numa forma específica — usado
-                  // no logo do Sistema Anglo de Ensino para esconder um
-                  // fundo quadriculado indesejado no arquivo JPG original
-                  // (ver comentário em src/data/brands.ts).
+                  // clipPath (opcional) recorta a imagem numa forma
+                  // específica, para esconder partes indesejadas de um
+                  // arquivo de logo. Nenhuma marca usa hoje.
                   clipPath: brand.clipPath,
                 }}
               >
@@ -71,9 +50,9 @@ export default function Brands() {
                   className="object-contain"
                 />
               </div>
-            </motion.div>
+            </RevealItem>
           ))}
-        </motion.div>
+        </RevealGroup>
       </div>
     </section>
   );

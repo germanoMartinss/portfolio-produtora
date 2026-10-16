@@ -1,6 +1,4 @@
-"use client";
-
-import { motion } from "framer-motion";
+import { FadeIn } from "@/components/motion/Reveal";
 import { PRODUCER_NAME } from "@/lib/site";
 
 // Separa "Bruna Rodriguez" em primeiro nome / sobrenome para exibir o
@@ -18,12 +16,7 @@ export default function Hero() {
           ocupando toda a largura da seção, em preto e branco, com o nome
           sobreposto em branco sobre um gradiente inferior para garantir
           legibilidade. */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        className="absolute inset-0"
-      >
+      <FadeIn className="absolute inset-0">
         <video
           src="/video/video-prod.mp4"
           autoPlay
@@ -34,7 +27,7 @@ export default function Hero() {
         />
 
         <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/75" />
-      </motion.div>
+      </FadeIn>
 
       <div className="absolute inset-x-6 bottom-8 sm:inset-x-12 sm:bottom-12">
         <h1 className="font-serif text-[clamp(40px,6vw,80px)] font-semibold leading-[1.05] tracking-tight text-white">

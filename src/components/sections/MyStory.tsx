@@ -1,7 +1,5 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
+import { Reveal } from "@/components/motion/Reveal";
 import { PRODUCER_NAME } from "@/lib/site";
 
 // Texto da bio completa, dividido em 3 parágrafos (trajetória/funções,
@@ -23,12 +21,7 @@ export default function MyStory() {
           longo, centralizar verticalmente causaria sobreposição visual com
           a seção seguinte da página. */}
       <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="flex flex-col gap-5 lg:order-2"
+        <Reveal className="flex flex-col gap-5 lg:order-2"
         >
           <p className="text-xs font-medium uppercase tracking-widest text-accent">
             Trajetória
@@ -41,16 +34,11 @@ export default function MyStory() {
               {paragraph}
             </p>
           ))}
-        </motion.div>
+        </Reveal>
 
         {/* "sticky top-24": a foto gruda a 96px do topo da tela e acompanha
             o scroll até o fim da coluna de texto (que é mais alta). */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="sticky top-24 aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black/5 lg:order-1"
+        <Reveal className="sticky top-24 aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black/5 lg:order-1"
         >
           <Image
             src="/images/bruna-hero-pb.jpeg"
@@ -59,7 +47,7 @@ export default function MyStory() {
             sizes="(min-width: 1024px) 40vw, 100vw"
             className="object-cover"
           />
-        </motion.div>
+        </Reveal>
       </div>
     </section>
   );
