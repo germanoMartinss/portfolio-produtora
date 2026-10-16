@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FeaturedVideo } from "@/types/project";
 import VideoCard from "@/components/project/VideoCard";
 import VideoLightbox from "@/components/project/VideoLightbox";
@@ -17,12 +17,19 @@ interface VideoGalleryProps {
 export default function VideoGallery({ videos, className }: VideoGalleryProps) {
   // Guarda qual vídeo está "aberto" no momento (null = nenhum, modal fechado).
   const [activeVideo, setActiveVideo] = useState<FeaturedVideo | null>(null);
+  // Botão do card que abriu o modal (o foco volta para ele ao fechar).
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+
+  function openVideo(video: FeaturedVideo, trigger: HTMLButtonElement) {
+    triggerRef.current = trigger;
+    setActiveVideo(video);
+  }
 
   return (
     <>
       <div className={className}>
         {videos.map((video) => (
-          <VideoCard key={video.id} video={video} onOpen={setActiveVideo} />
+          <VideoCard key={video.id} video={video} onOpen={openVideo} />
         ))}
       </div>
 
@@ -32,6 +39,7 @@ export default function VideoGallery({ videos, className }: VideoGalleryProps) {
           embedUrl={activeVideo.embedUrl}
           title={activeVideo.title}
           onClose={() => setActiveVideo(null)}
+          returnFocusRef={triggerRef}
         />
       )}
     </>

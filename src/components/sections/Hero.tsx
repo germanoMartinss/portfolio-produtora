@@ -1,4 +1,5 @@
 import { FadeIn } from "@/components/motion/Reveal";
+import HeroVideo from "@/components/sections/HeroVideo";
 import { PRODUCER_NAME } from "@/lib/site";
 
 // Separa "Bruna Rodriguez" em primeiro nome / sobrenome para exibir o
@@ -17,12 +18,8 @@ export default function Hero() {
           sobreposto em branco sobre um gradiente inferior para garantir
           legibilidade. */}
       <FadeIn className="absolute inset-0">
-        <video
+        <HeroVideo
           src="/video/video-prod.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
           className="absolute inset-0 h-full w-full object-cover grayscale contrast-[1.08]"
         />
 
@@ -31,7 +28,9 @@ export default function Hero() {
 
       <div className="absolute inset-x-6 bottom-8 sm:inset-x-12 sm:bottom-12">
         <h1 className="font-serif text-[clamp(40px,6vw,80px)] font-semibold leading-[1.05] tracking-tight text-white">
-          {firstName}
+          {/* O espaço antes do <br /> mantém o nome acessível como
+              "Bruna Rodriguez" (sem ele, leitores de tela leem tudo junto). */}
+          {firstName}{" "}
           <br />
           {lastName}
         </h1>

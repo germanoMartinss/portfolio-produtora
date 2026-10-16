@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import MotionProvider from "@/components/motion/MotionProvider";
 import "./globals.css";
 
 // Fonte serifada (títulos, nome, destaques) — carregada via next/font/google
@@ -40,10 +41,20 @@ export default function RootLayout({
       className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
-        <Header />
-        {/* Conteúdo específico de cada página (ex.: app/page.tsx) */}
-        {children}
-        <Footer />
+        {/* Link "pular para o conteúdo": invisível até receber foco pelo
+            teclado (primeiro Tab da página), leva direto ao <main>. */}
+        <a
+          href="#conteudo"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground"
+        >
+          Pular para o conteúdo
+        </a>
+        <MotionProvider>
+          <Header />
+          {/* Conteúdo específico de cada página (ex.: app/page.tsx) */}
+          {children}
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

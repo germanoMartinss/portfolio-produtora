@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Play } from "lucide-react";
@@ -8,10 +8,14 @@ import { FeaturedVideo } from "@/types/project";
 import VideoLightbox from "@/components/project/VideoLightbox";
 
 // Card do trailer (ilha de interatividade da seção AwardsWithTrailer):
-// thumbnail clicável que abre o filme no VideoLightbox.
+// thumbnail clicável que abre o filme no VideoLightbox. Mesma estrutura
+// acessível do VideoCard: título em <h3> com o <button> dentro, esticado
+// sobre o card inteiro via pseudo-elemento "after".
 export default function TrailerCard({ video }: { video: FeaturedVideo }) {
   // Controla se o modal do trailer está aberto.
   const [open, setOpen] = useState(false);
+  // O foco volta para este botão quando o modal fecha.
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   return (
     <>
@@ -22,19 +26,18 @@ export default function TrailerCard({ video }: { video: FeaturedVideo }) {
           coluna e não existe essa altura de referência, então usamos um
           aspect-ratio fixo (aspect-[3/4]) para a imagem não colapsar para
           0px. */}
-      <motion.button
-        type="button"
-        onClick={() => setOpen(true)}
+      <motion.article
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="group flex flex-col gap-3 text-left lg:h-full"
+        className="group relative flex flex-col gap-3 text-left lg:h-full"
       >
         <div className="relative aspect-[3/4] w-full overflow-hidden bg-foreground lg:aspect-auto lg:flex-1">
+          {/* Decorativa (alt=""): o título abaixo já identifica o trailer. */}
           <Image
             src={video.thumbnailUrl}
-            alt={`Trailer ${video.title}`}
+            alt=""
             fill
             sizes="(min-width: 1024px) 40vw, 100vw"
             className="object-cover opacity-75 transition-transform duration-500 group-hover:scale-105"
@@ -45,6 +48,7 @@ export default function TrailerCard({ video }: { video: FeaturedVideo }) {
                 className="ml-0.5 h-6 w-6 text-foreground"
                 fill="currentColor"
                 strokeWidth={0}
+                aria-hidden="true"
               />
             </span>
           </div>
@@ -52,14 +56,25 @@ export default function TrailerCard({ video }: { video: FeaturedVideo }) {
         <p className="text-xs font-semibold uppercase tracking-wide text-accent">
           {video.badge}
         </p>
-        <p className="font-serif text-lg font-medium">{video.title}</p>
-      </motion.button>
+        <h3 className="font-serif text-lg font-medium">
+          <button
+            ref={buttonRef}
+            type="button"
+            onClick={() => setOpen(true)}
+            className="block w-full text-left after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-offset-4 focus-visible:after:outline-accent"
+          >
+            <span className="sr-only">Assistir trailer: </span>
+            {video.title}
+          </button>
+        </h3>
+      </motion.article>
 
       {open && (
         <VideoLightbox
           embedUrl={video.embedUrl}
           title={`${video.title} — Trailer`}
           onClose={() => setOpen(false)}
+          returnFocusRef={buttonRef}
         />
       )}
     </>

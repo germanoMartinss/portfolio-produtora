@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Reveal } from "@/components/motion/Reveal";
-import { PRODUCER_NAME } from "@/lib/site";
 
 // Números de destaque mostrados como selos abaixo da bio.
 const HIGHLIGHTS = [
@@ -26,7 +25,7 @@ export default function Bio() {
         >
           <Image
             src="/images/bruna-bio.jpeg"
-            alt={`Foto de ${PRODUCER_NAME}`}
+            alt="Bastidores de uma gravação: o monitor de uma câmera de cinema mostra uma mulher de óculos fazendo pose descontraída diante de um fundo com um navio de carga."
             width={960}
             height={1280}
             sizes="(min-width: 1024px) 40vw, 100vw"

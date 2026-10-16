@@ -42,7 +42,7 @@ export default function MyStory() {
         >
           <Image
             src="/images/bruna-hero-pb.jpeg"
-            alt={`Foto de ${PRODUCER_NAME}`}
+            alt={`${PRODUCER_NAME} em um set de filmagem, em preto e branco, olhando para cima sob a luz de um softbox enquanto segura a embalagem de um produto.`}
             fill
             sizes="(min-width: 1024px) 40vw, 100vw"
             className="object-cover"
