@@ -5,6 +5,7 @@ import AwardsWithTrailer from "@/components/sections/AwardsWithTrailer";
 import MyStory from "@/components/sections/MyStory";
 import BehindTheScenes from "@/components/sections/BehindTheScenes";
 import Brands from "@/components/sections/Brands";
+import PersonJsonLd from "@/components/seo/PersonJsonLd";
 
 // Página inicial (rota "/"). Só monta as seções na ordem em que devem
 // aparecer na home — cada seção é um componente independente em
@@ -12,6 +13,7 @@ import Brands from "@/components/sections/Brands";
 export default function Home() {
   return (
     <main id="conteudo" tabIndex={-1} className="flex flex-1 flex-col focus:outline-none">
+      <PersonJsonLd />
       <Hero />
       <FeaturedVideos />
       <Bio />

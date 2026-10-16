@@ -3,6 +3,7 @@ import { Fraunces, Inter } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MotionProvider from "@/components/motion/MotionProvider";
+import { PRODUCER_NAME, SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 // Fonte serifada (títulos, nome, destaques) — carregada via next/font/google
@@ -19,12 +20,35 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-// Metadados globais da página (título da aba do navegador, descrição para SEO).
-// PLACEHOLDER: título e descrição a substituir pelo texto real de apresentação.
+// Metadados globais (aba do navegador, Google e compartilhamento em redes).
+// Textos e URL vêm de src/lib/site.ts. A imagem de compartilhamento é
+// gerada por app/opengraph-image.tsx (e app/twitter-image.tsx) — o Next
+// adiciona as tags og:image/twitter:image automaticamente.
 export const metadata: Metadata = {
-  title: "Portfólio | Produtora Audiovisual",
-  description:
-    "Portfólio de produção audiovisual: vídeos institucionais, documentários e conteúdo para marcas.",
+  // Base para transformar caminhos relativos ("/", imagens) em URLs
+  // absolutas nas tags de Open Graph e no canonical.
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_TITLE,
+    // Para páginas futuras: "Contato | Bruna Rodriguez", por exemplo.
+    template: `%s | ${PRODUCER_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  authors: [{ name: PRODUCER_NAME, url: SITE_URL }],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: "/",
+    siteName: PRODUCER_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 // Layout raiz do Next.js (App Router): envolve todas as páginas do site.

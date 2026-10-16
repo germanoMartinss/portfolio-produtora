@@ -1,4 +1,4 @@
-import { PRODUCER_NAME } from "@/lib/site";
+import { CONTACT, PRODUCER_NAME } from "@/lib/site";
 
 // Cabeçalho fixo no topo da página (montado em app/layout.tsx, aparece em
 // todas as rotas). "sticky top-0" faz ele grudar no topo ao rolar a página,
@@ -15,7 +15,7 @@ export default function Header() {
         </span>
         {/* Link de contato: muda de cor (cinza -> azul de destaque) no hover. */}
         <a
-          href="mailto:brunarodriguez_@hotmail.com"
+          href={`mailto:${CONTACT.email}`}
           className="text-xs font-medium uppercase tracking-[0.2em] text-muted transition-colors hover:text-accent"
         >
           Contato
