@@ -12,9 +12,10 @@ const PARAGRAPHS = [
   `Realizou dois filmes autorais premiados: "Os Demônios de Maxwell", em coparceria com o cineasta de Los Angeles Marcos Vaz, e o documentário "Pink Panther", contemplado no 6º FACULT da cidade de Santos (Setembro 2016 / Outubro 2023).`,
 ];
 
-// Seção "Minha História": texto biográfico completo à esquerda, foto à
-// direita. A foto usa "sticky" para acompanhar o scroll enquanto o texto
-// (mais alto) rola por baixo dela.
+// Seção "Minha História": no desktop, foto à esquerda e texto biográfico
+// completo à direita (a ordem visual vem das classes lg:order-*; no mobile
+// o texto vem primeiro). A foto usa "sticky" para acompanhar o scroll
+// enquanto o texto (mais alto) rola ao lado dela.
 export default function MyStory() {
   return (
     <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-14">

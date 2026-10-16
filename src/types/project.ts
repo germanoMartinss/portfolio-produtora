@@ -2,26 +2,8 @@
 // consomem. Manter os tipos aqui evita duplicar formas de objeto em vários
 // arquivos.
 
-// Um trabalho do "portfólio de vídeos" original (src/data/works.ts),
-// consumido por FeaturedWorks.tsx / WorkCard.tsx.
-export interface Work {
-  id: string;
-  title: string;
-  client: string;
-  role: string;
-  year?: string;
-  // Só um dos dois costuma ser usado: videoSrc para um link direto,
-  // videoEmbedUrl para um link de embed de player (Vimeo/YouTube).
-  videoSrc?: string;
-  videoEmbedUrl?: string;
-  thumbnailUrl: string;
-  // Quando true, o trabalho aparece em destaque (card grande) em vez da
-  // grade compacta.
-  featured?: boolean;
-}
-
 // Um prêmio/reconhecimento (src/data/awards.ts), exibido em
-// AwardsWithTrailer.tsx e Awards.tsx.
+// AwardsWithTrailer.tsx.
 export interface Award {
   id: string;
   title: string;

@@ -3,7 +3,6 @@ import { PRODUCER_NAME } from "@/lib/site";
 // Cabeçalho fixo no topo da página (montado em app/layout.tsx, aparece em
 // todas as rotas). "sticky top-0" faz ele grudar no topo ao rolar a página,
 // com fundo semitransparente + blur para dar a sensação de vidro fosco.
-// PLACEHOLDER: e-mail de contato fictício, substituir pelo real.
 export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-black/5 bg-background/80 backdrop-blur-md">

@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-12">
         <div className="flex flex-col gap-1">
           <span className="font-serif text-lg">{PRODUCER_NAME}</span>
-          {/* PLACEHOLDER: e-mail, telefone e redes sociais fictícios, substituir pelos reais. */}
+          {/* Contatos (e-mail, Instagram e telefone) — confirmar com a cliente. */}
           <p className="text-sm text-muted">
             brunarodriguez_@hotmail.com &middot; @brurodriguezz
           </p>
