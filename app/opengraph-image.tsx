@@ -1,16 +1,21 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import sharp from "sharp";
 import { PRODUCER_NAME } from "@/lib/site";
 
 // Imagem de compartilhamento (Open Graph: WhatsApp, LinkedIn, Facebook...),
 // gerada no build em 1200x630. Segue a identidade do site: fundo preto,
 // nome em Fraunces branca, detalhe azul (#2563eb) e a foto P&B do set.
 // As fontes ficam em assets/fonts em .woff (o gerador não lê .woff2).
+//
+// Saída em JPEG, não PNG: o ImageResponse só gera PNG (~390 KB com a foto),
+// e o WhatsApp ignora imagens de prévia acima de ~300 KB. Por isso o PNG é
+// convertido com sharp para ficar bem abaixo desse limite (~95 KB).
 
 export const alt = `${PRODUCER_NAME} — Produtora Audiovisual`;
 export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const contentType = "image/jpeg";
 
 export default async function OpengraphImage() {
   const [fraunces, inter, photo] = await Promise.all([
@@ -21,7 +26,7 @@ export default async function OpengraphImage() {
   const photoSrc = `data:image/jpeg;base64,${photo.toString("base64")}`;
   const [firstName, ...rest] = PRODUCER_NAME.split(" ");
 
-  return new ImageResponse(
+  const png = new ImageResponse(
     (
       <div style={{ display: "flex", width: "100%", height: "100%", background: "#0a0a0a" }}>
         <div
@@ -81,4 +86,14 @@ export default async function OpengraphImage() {
       ],
     },
   );
+
+  const jpeg = await sharp(Buffer.from(await png.arrayBuffer()))
+    // JPEG "baseline" (não progressivo), o formato mais compatível com
+    // crawlers de prévia. Sem a opção mozjpeg: ela força o modo progressivo.
+    .jpeg({ quality: 85, progressive: false })
+    .toBuffer();
+
+  return new Response(new Uint8Array(jpeg), {
+    headers: { "Content-Type": contentType },
+  });
 }

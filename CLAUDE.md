@@ -25,7 +25,7 @@ app/
   layout.tsx        # <html lang="pt-BR">, fontes, metadata (SEO/OG), skip link, MotionProvider, Header + {children} + Footer
   page.tsx          # Home: PersonJsonLd + seções na ordem; <main id="conteudo">
   globals.css       # Tokens, @theme (inclui animate-hero-in), @layer base (body, grão, :focus-visible, reduced-motion)
-  opengraph-image.tsx, twitter-image.tsx   # imagem de compartilhamento 1200x630 (next/og, gerada no build)
+  opengraph-image.tsx, twitter-image.tsx   # imagem de compartilhamento 1200x630 (next/og → JPEG baseline via sharp, ~95 KB; WhatsApp ignora > ~300 KB)
   icon.tsx, apple-icon.tsx                 # monograma "BR"
   sitemap.ts, robots.ts
 assets/fonts/       # Fraunces 600 / Inter 500 em .woff (next/og não lê .woff2)

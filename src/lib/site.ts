@@ -17,7 +17,7 @@ export const SITE_URL = (
 // Título e descrição padrão (aba do navegador, Google, compartilhamento).
 export const SITE_TITLE = `${PRODUCER_NAME} | Produtora Audiovisual`;
 export const SITE_DESCRIPTION =
-  "Produtora audiovisual com mais de 10 anos de set, da produção à direção de cena, para marcas como Starbucks, Disney, Natura e Einstein. Dois filmes premiados.";
+  "Produtora audiovisual há 10+ anos, da produção à direção de cena, para Starbucks, Disney e Natura. Dois filmes premiados.";
 
 // Contatos exibidos no Header/Footer e no JSON-LD.
 // A CONFIRMAR com a cliente se são os contatos públicos definitivos.

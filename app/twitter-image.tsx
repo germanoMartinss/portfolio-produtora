@@ -4,6 +4,6 @@ import { PRODUCER_NAME } from "@/lib/site";
 
 export const alt = `${PRODUCER_NAME} — Produtora Audiovisual`;
 export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const contentType = "image/jpeg";
 
 export default OpengraphImage;

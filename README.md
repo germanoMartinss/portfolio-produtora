@@ -135,7 +135,7 @@ ffmpeg -i public/video/video-prod.mp4 -frames:v 1 -q:v 3 public/images/hero-post
 - **Cards com título em `<h3>`.** Heading não pode ficar dentro de `<button>`, então o botão fica dentro do título e se estica sobre o card com `after:absolute after:inset-0`. O clique continua funcionando no card inteiro.
 - **Movimento reduzido respeitado** em três lugares: regra CSS, `MotionConfig reducedMotion="user"` e vídeo do Hero pausado.
 - **CSS global sempre em `@layer base`.** No Tailwind v4, CSS fora de camada vence os utilitários.
-- **Imagens de compartilhamento e ícones gerados no build** (`next/og`), com as mesmas fontes do site, então mudar o nome em `site.ts` atualiza tudo.
+- **Imagens de compartilhamento e ícones gerados no build** (`next/og`), com as mesmas fontes do site, então mudar o nome em `site.ts` atualiza tudo. A imagem de Open Graph é convertida de PNG para JPEG *baseline* com `sharp` (~95 KB), porque o WhatsApp ignora prévias acima de ~300 KB.
 
 ## Problemas encontrados e como foram resolvidos
 
@@ -150,6 +150,7 @@ ffmpeg -i public/video/video-prod.mp4 -frames:v 1 -q:v 3 public/images/hero-post
 | Foco "escapava" do modal pelo iframe | Tab dentro de iframe de outra origem não pode ser interceptado | Página de fundo `inert` + sentinelas de foco |
 | Nome no `<h1>` lido como "BrunaRodriguez" | `<br />` sem espaço entre as palavras | Espaço antes do `<br />` |
 | Favicon era o triângulo da Vercel | Sobra do `create-next-app` | Monograma "BR" gerado no build |
+| Prévia do link não aparecia no WhatsApp (funcionava no Facebook) | `ImageResponse` gera PNG: 393 KB com a foto, acima do limite de ~300 KB do WhatsApp | Conversão para JPEG baseline (qualidade 85) com `sharp`: 95 KB, SSIM 0,992. Sem a opção `mozjpeg`, que força JPEG progressivo |
 | Rodapé com 6 pixels diferentes após centralizar contatos | Texto em vários nós muda o kerning na emenda | Uma string única |
 
 ### Como as mudanças foram verificadas
