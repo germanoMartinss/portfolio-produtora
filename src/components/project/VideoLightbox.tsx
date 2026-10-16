@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 interface VideoLightboxProps {
   // URL de embed do player (YouTube, Vimeo) SEM o parâmetro de autoplay —
-  // este componente adiciona "?autoplay=1" automaticamente.
+  // este componente adiciona "autoplay=1" automaticamente.
   embedUrl: string;
   title: string;
   onClose: () => void;
@@ -35,6 +35,10 @@ export default function VideoLightbox({
   returnFocusRef,
 }: VideoLightboxProps) {
   const titleId = useId();
+  // Acrescenta autoplay=1 preservando parâmetros que a URL já tenha
+  // (ex.: "?dnt=1" do Vimeo).
+  const src = new URL(embedUrl);
+  src.searchParams.set("autoplay", "1");
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -121,7 +125,7 @@ export default function VideoLightbox({
       >
         <iframe
           ref={iframeRef}
-          src={`${embedUrl}?autoplay=1`}
+          src={src.toString()}
           title={title}
           className="absolute inset-0 h-full w-full"
           allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"

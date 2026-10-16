@@ -28,19 +28,6 @@ export function Reveal({ y = 24, duration = 0.6, ...props }: RevealProps) {
   );
 }
 
-// Aparece ao montar a página (sem esperar o scroll) — usado no Hero, que
-// já está visível no carregamento.
-export function FadeIn({ duration = 1.2, ...props }: HTMLMotionProps<"div"> & { duration?: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration, ease: "easeOut" }}
-      {...props}
-    />
-  );
-}
-
 // Container de lista: os RevealItem filhos entram com um pequeno atraso
 // entre si (staggerChildren), criando um efeito de cascata.
 export function RevealGroup({

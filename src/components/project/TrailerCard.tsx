@@ -39,7 +39,8 @@ export default function TrailerCard({ video }: { video: FeaturedVideo }) {
             src={video.thumbnailUrl}
             alt=""
             fill
-            sizes="(min-width: 1024px) 40vw, 100vw"
+            // Coluna 0.9fr do grid contido em max-w-6xl: ~445px no máximo.
+            sizes="(min-width: 1152px) 445px, (min-width: 1024px) 40vw, 100vw"
             className="object-cover opacity-75 transition-transform duration-500 group-hover:scale-105"
           />
           <div className="absolute inset-0 flex items-center justify-center">

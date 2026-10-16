@@ -19,6 +19,8 @@ export default function BehindTheScenes() {
       <VideoGallery
         videos={behindTheScenesVideos}
         className="grid grid-cols-1 gap-2 sm:grid-cols-3"
+        // Grid contido em max-w-6xl: a partir de 1152px cada card tem ~340px.
+        sizes="(min-width: 1152px) 340px, (min-width: 640px) 33vw, 100vw"
       />
     </section>
   );

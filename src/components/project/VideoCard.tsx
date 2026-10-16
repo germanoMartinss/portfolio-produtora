@@ -11,6 +11,9 @@ interface VideoCardProps {
   // o que fazer (normalmente: abrir o VideoLightbox com este vídeo). Recebe
   // também o botão clicado, para o foco voltar a ele quando o modal fechar.
   onOpen: (video: FeaturedVideo, trigger: HTMLButtonElement) => void;
+  // Atributo "sizes" da thumbnail (largura real do card em cada tela), para
+  // o next/image baixar a menor imagem suficiente.
+  sizes: string;
 }
 
 // Card de vídeo usado nas seções "Vídeos em Destaque" e "Direção de Cena e
@@ -22,7 +25,7 @@ interface VideoCardProps {
 // de <button>), e o <button> fica dentro do título com um pseudo-elemento
 // "after:absolute after:inset-0" que se estica sobre o card inteiro — então
 // clicar em qualquer ponto do card continua abrindo o vídeo.
-export default function VideoCard({ video, onOpen }: VideoCardProps) {
+export default function VideoCard({ video, onOpen, sizes }: VideoCardProps) {
   return (
     <motion.article
       // Animação de entrada: o card sobe e aparece suavemente quando entra
@@ -40,7 +43,7 @@ export default function VideoCard({ video, onOpen }: VideoCardProps) {
           src={video.thumbnailUrl}
           alt=""
           fill
-          sizes="(min-width: 1024px) 33vw, 100vw"
+          sizes={sizes}
           // "group-hover:scale-105": dá um leve zoom na imagem quando o
           // mouse passa por cima do card.
           className="object-cover transition-transform duration-500 group-hover:scale-105"

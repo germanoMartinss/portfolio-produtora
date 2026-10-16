@@ -28,7 +28,7 @@ export default function Bio() {
             alt="Bastidores de uma gravação: o monitor de uma câmera de cinema mostra uma mulher de óculos fazendo pose descontraída diante de um fundo com um navio de carga."
             width={960}
             height={1280}
-            sizes="(min-width: 1024px) 40vw, 100vw"
+            sizes="(min-width: 1152px) 490px, (min-width: 1024px) 45vw, 100vw"
             className="h-full w-full object-cover"
           />
         </Reveal>

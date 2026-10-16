@@ -19,6 +19,25 @@
   --font-serif: var(--font-serif);
 }
 
+/* Entrada do Hero em CSS puro (não framer-motion): começa no primeiro
+   paint, sem esperar o JavaScript hidratar — o vídeo/pôster do topo é o
+   LCP da página. Mesmos valores da animação anterior (framer "easeOut" =
+   cubic-bezier(0, 0, 0.58, 1)). Uso: classe "animate-hero-in". */
+@theme {
+  --animate-hero-in: hero-in 1.2s cubic-bezier(0, 0, 0.58, 1) both;
+
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
 /* Estilos globais SEMPRE dentro de @layer base: no Tailwind v4, CSS fora de
    camada vence qualquer utilitário (que fica em @layer utilities), então
    uma regra solta aqui anularia classes como bg-* e text-* no <body>. */

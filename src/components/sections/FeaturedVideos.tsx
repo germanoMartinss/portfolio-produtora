@@ -22,6 +22,7 @@ export default function FeaturedVideos() {
       <VideoGallery
         videos={featuredVideos}
         className="grid grid-cols-1 gap-4 sm:grid-cols-3"
+        sizes="(min-width: 640px) 33vw, 100vw"
       />
     </section>
   );

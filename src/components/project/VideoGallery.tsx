@@ -9,12 +9,14 @@ interface VideoGalleryProps {
   videos: FeaturedVideo[];
   // Classes do grid (colunas/espaçamento), que variam entre as seções.
   className: string;
+  // "sizes" das thumbnails (ver VideoCard).
+  sizes: string;
 }
 
 // Ilha de interatividade das seções de vídeo (FeaturedVideos e
 // BehindTheScenes): só o grid de cards + o modal precisam de estado no
 // navegador; o cabeçalho da seção continua sendo renderizado no servidor.
-export default function VideoGallery({ videos, className }: VideoGalleryProps) {
+export default function VideoGallery({ videos, className, sizes }: VideoGalleryProps) {
   // Guarda qual vídeo está "aberto" no momento (null = nenhum, modal fechado).
   const [activeVideo, setActiveVideo] = useState<FeaturedVideo | null>(null);
   // Botão do card que abriu o modal (o foco volta para ele ao fechar).
@@ -29,7 +31,7 @@ export default function VideoGallery({ videos, className }: VideoGalleryProps) {
     <>
       <div className={className}>
         {videos.map((video) => (
-          <VideoCard key={video.id} video={video} onOpen={openVideo} />
+          <VideoCard key={video.id} video={video} onOpen={openVideo} sizes={sizes} />
         ))}
       </div>
 
