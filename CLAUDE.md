@@ -9,9 +9,10 @@ Você vai trabalhar num site de portfólio pessoal de uma one-page para **Bruna 
 - **Next.js 16.3.8** (App Router, pasta `app/` na raiz), **React 19.2.4**, **TypeScript 5**
 - **Tailwind CSS v4** (via `@tailwindcss/postcss`, sem `tailwind.config` — tema definido em CSS com `@theme inline`)
 - **framer-motion 12** para animações de entrada
+- **lenis 1.3.27** (scroll suave; importado sob demanda, só com mouse e sem movimento reduzido)
 - **lucide-react** para ícones (`Play`, `Trophy`)
 - **ESLint 9** + `eslint-config-next`
-- Fontes via `next/font/google`: **Fraunces** (serifada, pesos 400/500/600, variável `--font-serif`) para títulos/nome e **Inter** (sans, variável `--font-sans`) para o corpo
+- Fontes via `next/font/google`: **Fraunces variável** (só eixos `wght` + `opsz`, subconjunto latino, `--font-serif`, ~67 KB, única serifada com preload) mais a **Fraunces itálica** em arquivo separado sem preload (`--font-serif-italic`), para títulos/nome; **Inter** (sans, variável `--font-sans`) para o corpo. Os eixos `SOFT` e `WONK` foram descartados de propósito: o SOFT levava o arquivo pré-carregado de 67 KB para 121 KB
 - Alias `@/*` → `src/*`
 - Scripts: `dev`, `build`, `start`, `lint`
 - `next.config.ts`: `images.remotePatterns` liberando `i.vimeocdn.com` e `img.youtube.com` (thumbnails remotas com `next/image`)
@@ -60,6 +61,12 @@ Princípios de arquitetura:
 - Expostos no Tailwind como `bg-background`, `text-foreground`, `text-muted`, `text-accent`, `bg-accent-blue`, `font-serif`, `font-sans`
 - Todo CSS global fica em `@layer base` (no Tailwind v4, CSS fora de camada anula utilitários)
 - `body::before`: overlay fixo de ruído (SVG `feTurbulence` fractalNoise inline em data URI), `opacity: 0.035`, `mix-blend-mode: multiply`, `pointer-events: none` — tira a "frieza" do branco chapado
+- `--accent-on-dark: #60a5fa` (texto azul sobre preto, ~7,7:1), `--line` / `--line-on-dark` (linhas finas de divisão)
+- Escala tipográfica fluida (375 → 1920 px, `clamp()`): `text-label`, `text-body`, `text-lead`, `text-title`, `text-section`, `text-display`, `text-monument`; `tracking-credits` (0,2em) nos rótulos
+- Espaçamento fluido: `px-gutter` (24 → 64 px), `gap-grid`, `py-section`; grid editorial `page-grid` (4 colunas no mobile, 12 a partir de 768 px) — rótulo de crédito na coluna da esquerda, conteúdo a partir da coluna 3 ou 4
+- Movimento: `--ease-cine`, `--ease-cine-in-out`, `--dur-fast/base/slow/reveal` (viram 1 ms com movimento reduzido), espelhados em `src/lib/motion.ts` para o framer-motion
+
+**Tipografia (conceito do redesign):** o contraste dos títulos vem do **tamanho óptico (`opsz`)** da Fraunces, que o navegador aplica sozinho e deixa o desenho mais fino e contrastado nos tamanhos gigantes, e do **itálico** em palavras de destaque (`<em>` dentro de `.font-serif` usa a Fraunces itálica real). Não usar o eixo SOFT.
 
 **Padrão de cabeçalho de seção (repetido em todas):**
 - Eyebrow: `text-xs font-medium uppercase tracking-widest text-accent` (ex.: "Sobre", "Reconhecimento")
@@ -168,6 +175,8 @@ Marcas (arquivo em `/logos/`, escala): Copag (`copag.png`), Mary Kay (`mary-kay.
 
 - Domínio não comprado: `SITE_URL` provisória (definir `NEXT_PUBLIC_SITE_URL` ao publicar).
 - Contatos (e-mail, Instagram @brurodriguezz, telefone) aguardam confirmação da cliente; Instagram/telefone não são links.
+- Instagram no Contato continua como **texto** até a Bruna confirmar o perfil (só o e-mail é link, `mailto:`).
+- Vídeo do Hero é vertical 720×1280 e não existe versão maior: em tela cheia a 1920 px fica ampliado ~2,7× e borrado. Conversar com a Bruna sobre uma versão horizontal ou em maior resolução.
 - Eyebrow azul sobre fundo preto em Brands tem contraste 3,8:1 (abaixo do AA para 12px) — decisão visual pendente.
 - Vídeo do Hero sem botão de pausa (WCAG 2.2.2) — pedido da cliente foi "sem controles"; só pausa com movimento reduzido.
 - Alertas de `npm audit` restantes são só de dev (cadeia do `eslint-config-next`).

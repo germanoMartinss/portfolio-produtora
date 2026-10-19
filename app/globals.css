@@ -142,12 +142,6 @@
   padding-inline: var(--gutter);
 }
 
-/* Eixo SOFT da Fraunces (0 = serifas secas, 100 = arredondadas).
-   Uso: soft-50, soft-100. O tamanho óptico (opsz) é automático. */
-@utility soft-* {
-  font-variation-settings: "SOFT" --value(integer);
-}
-
 /* Estilos globais SEMPRE dentro de @layer base: no Tailwind v4, CSS fora de
    camada vence qualquer utilitário (que fica em @layer utilities), então
    uma regra solta aqui anularia classes como bg-* e text-* no <body>. */

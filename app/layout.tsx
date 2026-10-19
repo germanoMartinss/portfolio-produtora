@@ -12,13 +12,14 @@ import "./globals.css";
 // via next/font/google e exposta como "--font-serif" (ver app/globals.css).
 // Sem "weight": um arquivo só cobre todos os pesos (eixo wght). Dos eixos
 // extras, só o tamanho óptico (opsz: desenho mais fino e contrastado nos
-// títulos gigantes, automático) e o SOFT (utilitário soft-*) — o WONK
-// ficaria de fora de qualquer jeito e só pesaria o arquivo.
+// títulos gigantes, aplicado automaticamente pelo navegador). SOFT e WONK
+// ficam de fora: o SOFT sozinho quase dobrava o arquivo pré-carregado
+// (67 KB → 121 KB) e disputaria banda com o pôster do Hero no celular.
 const fraunces = Fraunces({
   variable: "--font-serif",
   subsets: ["latin"],
   style: "normal",
-  axes: ["opsz", "SOFT"],
+  axes: ["opsz"],
 });
 
 // Itálico da Fraunces para palavras de destaque nos títulos (<em> dentro de
@@ -29,7 +30,7 @@ const frauncesItalic = Fraunces({
   variable: "--font-serif-italic",
   subsets: ["latin"],
   style: "italic",
-  axes: ["opsz", "SOFT"],
+  axes: ["opsz"],
   preload: false,
 });
 
