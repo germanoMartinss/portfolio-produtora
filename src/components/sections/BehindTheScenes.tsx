@@ -1,27 +1,27 @@
 import { behindTheScenesVideos } from "@/data/videos";
-import VideoGallery from "@/components/project/VideoGallery";
+import SectionLabel from "@/components/layout/SectionLabel";
+import { MaskReveal } from "@/components/motion/Reveal";
+import VideoMosaic from "@/components/project/VideoMosaic";
 
-// Seção "Direção de Cena e Depoimentos": mesmo padrão visual de card da
-// seção FeaturedVideos, mas contida em max-w-6xl (não full-bleed) —
-// diferença intencional entre as duas seções de vídeo da home.
+// Seção 05 — Bastidores: direção de cena e depoimentos, num mosaico
+// assimétrico (ver VideoMosaic.tsx) — ritmo diferente da lista + tela de
+// Trabalhos, com o mesmo sistema de mídia e lightbox.
+// Server Component: só o mosaico roda no navegador.
 export default function BehindTheScenes() {
   return (
-    <section className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-16 sm:py-14">
-      <div className="mb-10 flex flex-col gap-3">
-        <p className="text-xs font-medium uppercase tracking-widest text-accent">
-          Bastidores
-        </p>
-        <h2 className="font-serif text-4xl font-medium tracking-tight sm:text-5xl">
-          Direção de Cena e Depoimentos
+    <section id="bastidores" aria-labelledby="bastidores-titulo" className="pt-section">
+      <div className="page-grid gap-y-12 lg:gap-y-20">
+        <SectionLabel index={5} label="Bastidores" />
+        <h2
+          id="bastidores-titulo"
+          className="col-span-full font-serif text-section lg:col-span-10 lg:col-start-3"
+        >
+          <MaskReveal>
+            Direção de cena e <em>depoimentos</em>
+          </MaskReveal>
         </h2>
+        <VideoMosaic videos={behindTheScenesVideos} />
       </div>
-
-      <VideoGallery
-        videos={behindTheScenesVideos}
-        className="grid grid-cols-1 gap-2 sm:grid-cols-3"
-        // Grid contido em max-w-6xl: a partir de 1152px cada card tem ~340px.
-        sizes="(min-width: 1152px) 340px, (min-width: 640px) 33vw, 100vw"
-      />
     </section>
   );
 }

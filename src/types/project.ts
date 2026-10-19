@@ -36,9 +36,9 @@ export interface Highlight {
   label: string;
 }
 
-// Um vídeo em destaque (src/data/videos.ts), usado pelos cards de vídeo
-// (VideoCard.tsx) nas seções FeaturedVideos, BehindTheScenes e pelo
-// trailer em AwardsWithTrailer.
+// Um vídeo (src/data/videos.ts), usado pela lista + tela de Trabalhos
+// (WorkList.tsx), pelo mosaico de Bastidores (VideoMosaic.tsx) e pelo
+// trailer em AwardsWithTrailer (TrailerPlayer.tsx).
 export interface FeaturedVideo {
   id: string;
   title: string;

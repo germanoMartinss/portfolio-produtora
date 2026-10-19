@@ -36,7 +36,8 @@ export const featuredVideos: FeaturedVideo[] = [
   },
 ];
 
-// Vídeos exibidos na seção "Direção de Cena e Depoimentos" (BehindTheScenes.tsx).
+// Vídeos da seção Bastidores (BehindTheScenes.tsx): o primeiro aparece
+// grande no mosaico, os outros dois menores ao lado.
 export const behindTheScenesVideos: FeaturedVideo[] = [
   {
     id: "einstein-nossa-historia",
