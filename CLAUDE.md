@@ -179,6 +179,5 @@ Marcas (arquivo em `/logos/`, escala): Copag (`copag.png`), Mary Kay (`mary-kay.
 - Efeitos ligados ao scroll são CSS puro (scroll-driven animations, `animation-timeline`): no Firefox, que ainda não suporta, eles simplesmente não acontecem (o Hero não encolhe/escurece; o conteúdo aparece pronto). Fallback aceito.
 - Frames dos vídeos: hoje são as thumbnails do YouTube (`sddefault`, 640 px úteis), que ficam suaves na tela grande de Trabalhos e no mosaico de Bastidores. Pedir à Bruna frames em alta (JPG ≥ 1600 px) ou trechos de 3 a 5 s (MP4 sem áudio) de cada vídeo; entram como `imageUrl` / `loopUrl` em `src/data/videos.ts`, sem mudar código.
 - Vídeo do Hero é vertical 720×1280 e não existe versão maior: em tela cheia a 1920 px fica ampliado ~2,7× e borrado. Conversar com a Bruna sobre uma versão horizontal ou em maior resolução.
-- Eyebrow azul sobre fundo preto em Brands tem contraste 3,8:1 (abaixo do AA para 12px) — decisão visual pendente.
 - Vídeo do Hero sem botão de pausa (WCAG 2.2.2) — pedido da cliente foi "sem controles"; só pausa com movimento reduzido.
 - Alertas de `npm audit` restantes são só de dev (cadeia do `eslint-config-next`).

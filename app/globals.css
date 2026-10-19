@@ -257,6 +257,19 @@
         animation-range: var(--a) var(--b);
       }
 
+      /* --- Revelação por máscara sem JS (título do Contato) -------------
+         O texto sobe de dentro da máscara enquanto ela entra na tela. A
+         linha do tempo fica na máscara (o texto, fora dela, não teria
+         interseção com a tela). */
+      .mask-reveal {
+        view-timeline: --mask block;
+      }
+      .mask-reveal > span {
+        animation: line-in linear both;
+        animation-timeline: --mask;
+        animation-range: entry 0% entry 100%;
+      }
+
       /* --- Sobre: números contando de 0 até o valor final --------------
          O número real fica no HTML (.count-final) e só é trocado pelo
          contador (::after, com a propriedade registrada --n) onde há
@@ -290,6 +303,50 @@
       }
     }
   }
+  /* --- Marcas: marquee de logos (Brands.tsx) ------------------------------
+     Cada fileira tem 3 cópias da lista; a trilha anda 1/3 (uma cópia) e
+     recomeça, sem emenda. Só transform. Pausa no hover da área e quando o
+     botão "Pausar marcas" marca data-paused. As bordas somem num degradê
+     (máscara) para os logos entrarem e saírem de cena. */
+  .marquee {
+    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .marquee-row {
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--marquee-duration, 45s) linear infinite;
+  }
+  .marquee-track[data-direction="reverse"] {
+    animation-direction: reverse;
+  }
+  .marquee-area:hover .marquee-track,
+  .marquee-area[data-paused="true"] .marquee-track {
+    animation-play-state: paused;
+  }
+  /* Movimento reduzido: trilha parada e sem máscara nas bordas. A grade
+     (só a 1ª cópia, quebrando linha) e o sumiço do botão de pausa ficam nas
+     variantes motion-reduce: dos próprios elementos (Brands.tsx,
+     MarqueeControls.tsx). */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      mask-image: none;
+    }
+    .marquee-track {
+      animation: none;
+      width: auto;
+      justify-content: center;
+      padding-inline: var(--gutter);
+    }
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(calc(-100% / 3));
+    }
+  }
+
   @keyframes fade-in {
     from {
       opacity: 0;
