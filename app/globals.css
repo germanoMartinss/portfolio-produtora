@@ -246,12 +246,6 @@
      palavra ganha opacidade numa faixa do scroll. A faixa de cada palavra
      vem de --a/--b (inline, calculadas no servidor). Sem suporte (Firefox)
      ou com movimento reduzido, a cópia preta fica toda visível. */
-  /* A barra de progresso da História só existe onde ela anda (vem antes
-     do @supports abaixo, que a mostra — a ordem decide o empate). */
-  .story-progress {
-    display: none;
-  }
-
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
       .bio-reveal {
@@ -294,34 +288,6 @@
         animation-timeline: --stats;
         animation-range: entry 0% cover 45%;
       }
-
-      /* --- Minha História: parágrafos entram e saem; progresso ---------
-         Só no desktop (lg), onde a foto fica sticky ao lado. Cada
-         parágrafo fica 100% visível no meio da tela (25%–75% da sua
-         passagem) e some nas bordas. A barra sob a foto enche conforme os
-         3 parágrafos passam — timeline-scope deixa a barra (na coluna da
-         foto) usar a linha do tempo da coluna de texto. */
-      @media (min-width: 1024px) {
-        .story {
-          timeline-scope: --story;
-        }
-        .story-steps {
-          view-timeline: --story block;
-        }
-        .story-step {
-          animation: step-through linear both;
-          animation-timeline: view();
-          animation-range: cover 0% cover 100%;
-        }
-        .story-progress {
-          display: block;
-        }
-        .story-progress-fill {
-          animation: grow-x linear both;
-          animation-timeline: --story;
-          animation-range: contain 0% contain 100%;
-        }
-      }
     }
   }
   @keyframes fade-in {
@@ -338,29 +304,6 @@
     }
     to {
       --n: var(--to);
-    }
-  }
-  @keyframes step-through {
-    0% {
-      opacity: 0;
-      transform: translateY(3rem);
-    }
-    25%,
-    75% {
-      opacity: 1;
-      transform: none;
-    }
-    100% {
-      opacity: 0;
-      transform: translateY(-3rem);
-    }
-  }
-  @keyframes grow-x {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
     }
   }
 
