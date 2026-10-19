@@ -47,5 +47,14 @@ export interface FeaturedVideo {
   badge?: string;
   // URL de embed do player, sem parâmetros de autoplay (ver VideoLightbox.tsx).
   embedUrl: string;
+  // Thumbnail da plataforma (YouTube/Vimeo) — sempre existe.
   thumbnailUrl: string;
+  // Opcional: frame próprio em alta (ex.: "/frames/copag.jpg", em
+  // public/). Se existir, substitui a thumbnail em todo o site.
+  imageUrl?: string;
+  // Opcional: trecho curto do vídeo (3 a 5 s, MP4 H.264, SEM áudio, em
+  // public/). Toca em loop por cima do frame quando o vídeo está em
+  // destaque (tela de Trabalhos, hover no mosaico), nunca com "reduzir
+  // movimento".
+  loopUrl?: string;
 }

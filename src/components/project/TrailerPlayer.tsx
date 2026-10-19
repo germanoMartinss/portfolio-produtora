@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { FeaturedVideo } from "@/types/project";
+import VideoFrame from "@/components/project/VideoFrame";
 
 // Trailer em largura total, 16:9, com carregamento sob demanda: até o
 // clique só existe a imagem (nada do Vimeo é baixado); ao clicar, o iframe
@@ -41,16 +41,11 @@ export default function TrailerPlayer({ video }: { video: FeaturedVideo }) {
       data-cursor="play"
       className="group relative col-span-full aspect-video overflow-hidden bg-black text-white"
     >
-      {/* Decorativa (alt=""): o título já identifica o trailer. O quadro
-          do Vimeo vem com tarjas pretas (filme widescreen dentro de 16:9):
-          a escala de 1,1 as corta. */}
-      <Image
-        src={video.thumbnailUrl}
-        alt=""
-        fill
-        sizes="100vw"
-        className="scale-[1.1] object-cover transition-transform duration-(--dur-slow) ease-cine group-hover:scale-[1.13]"
-      />
+      {/* O quadro do Vimeo vem com tarjas pretas (filme widescreen dentro
+          de 16:9): a escala de 1,1 as corta. */}
+      <div className="absolute inset-0 scale-[1.1] transition-transform duration-(--dur-slow) ease-cine group-hover:scale-[1.13]">
+        <VideoFrame video={video} sizes="100vw" />
+      </div>
       {/* Gradiente inferior para a leitura do título. */}
       <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
 

@@ -8,6 +8,10 @@ import { FeaturedVideo } from "@/types/project";
 // Thumbnails do YouTube: "sddefault.jpg" (640×480 com tarjas pretas, que o
 // object-cover corta em 16:9). É a maior que existe para todos os vídeos —
 // o "maxresdefault" falta em alguns deles.
+// Opcionais, por vídeo: "imageUrl" (frame próprio em alta, em public/) e
+// "loopUrl" (MP4 de 3 a 5 s, sem áudio, em public/) — se existirem,
+// substituem a thumbnail (ver VideoFrame.tsx). Ex.:
+//   imageUrl: "/frames/copag.jpg", loopUrl: "/loops/copag.mp4",
 export const featuredVideos: FeaturedVideo[] = [
   {
     id: "einstein-retratos-pandemia",

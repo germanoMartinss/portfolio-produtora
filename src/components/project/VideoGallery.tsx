@@ -38,8 +38,7 @@ export default function VideoGallery({ videos, className, sizes }: VideoGalleryP
       {/* O modal só é renderizado quando há um vídeo ativo. */}
       {activeVideo && (
         <VideoLightbox
-          embedUrl={activeVideo.embedUrl}
-          title={activeVideo.title}
+          video={activeVideo}
           onClose={() => setActiveVideo(null)}
           returnFocusRef={triggerRef}
         />

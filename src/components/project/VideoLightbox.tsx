@@ -4,19 +4,15 @@ import { useEffect, useId, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
+import { FeaturedVideo } from "@/types/project";
+import { frameSrc } from "@/components/project/VideoFrame";
 import { pauseSmoothScroll, resumeSmoothScroll } from "@/lib/smooth-scroll";
 import { DURATION, TRANSITION } from "@/lib/motion";
 
-// "sizes" da thumbnail usada como "ponte" visual (lista de trabalhos e
-// lightbox usam o mesmo valor): com o mesmo sizes, o navegador escolhe o
-// mesmo arquivo do srcset e a imagem já está em cache quando o player abre.
-export const THUMB_SIZES = "(min-width: 768px) 400px, 50vw";
-
 interface VideoLightboxProps {
-  // URL de embed do player (YouTube, Vimeo) SEM o parâmetro de autoplay —
-  // este componente adiciona "autoplay=1" automaticamente.
-  embedUrl: string;
-  title: string;
+  // Vídeo a tocar: embedUrl SEM o parâmetro de autoplay (este componente
+  // adiciona "autoplay=1") e o frame usado durante a transição.
+  video: FeaturedVideo;
   onClose: () => void;
   // Elemento que abriu o modal (normalmente o botão do card). Ao fechar, o
   // foco volta para ele — sem isso, quem navega por teclado "cai" no topo
@@ -27,9 +23,11 @@ interface VideoLightboxProps {
   // centro da tela. Sem layoutId (ex.: aberto pelo teclado, sem thumbnail
   // visível), a caixa só aparece com fade + leve zoom.
   layoutId?: string;
-  // Thumbnail mostrada dentro da caixa enquanto ela cresce; o iframe só
-  // entra no fim da transição (um iframe sendo escalado fica distorcido).
-  thumbnailUrl?: string;
+  // "sizes" do frame de origem. O frame aparece dentro da caixa enquanto
+  // ela cresce (o iframe só entra no fim: escalado, ficaria distorcido);
+  // com o mesmo sizes da origem, o navegador escolhe o mesmo arquivo do
+  // srcset e a imagem já está em cache. Sem ele, a caixa abre vazia.
+  frameSizes?: string;
 }
 
 // Modal (dialog acessível) em tela cheia que reproduz um vídeo dentro de
@@ -46,13 +44,13 @@ interface VideoLightboxProps {
 // - Esc fecha; o foco volta ao elemento que abriu; o scroll do fundo é
 //   bloqueado (inclusive o scroll suave do Lenis).
 export default function VideoLightbox({
-  embedUrl,
-  title,
+  video,
   onClose,
   returnFocusRef,
   layoutId,
-  thumbnailUrl,
+  frameSizes,
 }: VideoLightboxProps) {
+  const { embedUrl, title } = video;
   const titleId = useId();
   const reduce = useReducedMotion();
   // Acrescenta autoplay=1 preservando parâmetros que a URL já tenha
@@ -166,8 +164,8 @@ export default function VideoLightbox({
         className="relative aspect-video w-full max-w-5xl overflow-hidden bg-black"
         onClick={(event) => event.stopPropagation()}
       >
-        {thumbnailUrl && (
-          <Image src={thumbnailUrl} alt="" fill sizes={THUMB_SIZES} className="object-cover" />
+        {frameSizes && (
+          <Image src={frameSrc(video)} alt="" fill sizes={frameSizes} className="object-cover" />
         )}
         {ready && (
           <iframe
