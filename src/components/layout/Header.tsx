@@ -1,12 +1,12 @@
-import { CONTACT, PRODUCER_NAME } from "@/lib/site";
+import { PRODUCER_NAME } from "@/lib/site";
 
-// Links do menu: âncora para a seção de trabalhos (rolagem suave com o
-// Lenis, ver SmoothScroll.tsx) e e-mail de contato.
+// Links do menu: âncoras para as seções de trabalhos e de contato (rolagem
+// suave com o Lenis, ver SmoothScroll.tsx). O e-mail fica na seção Contato.
 // "Trabalhos" some abaixo de 640px: em 375px não cabem nome + 2 links com
 // o espaçamento dos créditos (e o "Role" do Hero já leva à mesma seção).
 const LINKS = [
   { label: "Trabalhos", href: "#trabalhos", className: "hidden sm:block" },
-  { label: "Contato", href: `mailto:${CONTACT.email}`, className: "" },
+  { label: "Contato", href: "#contato", className: "" },
 ];
 
 // Cabeçalho fixo e transparente, por cima do Hero (montado em
