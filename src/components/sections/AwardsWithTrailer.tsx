@@ -9,7 +9,7 @@ import TrailerPlayer from "@/components/project/TrailerPlayer";
 // Server Component: só o trailer (TrailerPlayer) roda no navegador.
 export default function AwardsWithTrailer() {
   return (
-    <section id="premios" aria-labelledby="premios-titulo" className="py-section">
+    <section id="premios" aria-labelledby="premios-titulo" className="pt-section">
       <div className="page-grid gap-y-12 lg:gap-y-20">
         <SectionLabel index={3} label="Prêmios" />
         <h2

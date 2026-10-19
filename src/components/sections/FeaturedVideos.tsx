@@ -9,7 +9,7 @@ import WorkList from "@/components/project/WorkList";
 // Server Component: só a lista (WorkList) roda no navegador.
 export default function FeaturedVideos() {
   return (
-    <section id="trabalhos" aria-labelledby="trabalhos-titulo" className="py-section">
+    <section id="trabalhos" aria-labelledby="trabalhos-titulo" className="pt-section">
       {/* Composição do page-grid (a partir de lg): rótulo de crédito nas 2
           colunas da esquerda, título a partir da coluna 3; a lista ocupa as
           12 colunas (subgrid), para o número de cada linha cair na coluna

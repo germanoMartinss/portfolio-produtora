@@ -15,7 +15,7 @@ const number = (index: number) => String(index + 1).padStart(2, "0");
 // - Celular/tablet: tudo empilhado, sem sticky e sem animação.
 export default function MyStory() {
   return (
-    <section id="historia" aria-labelledby="historia-titulo" className="py-section">
+    <section id="historia" aria-labelledby="historia-titulo" className="pt-section">
       <div className="page-grid gap-y-12 lg:gap-y-20">
         <SectionLabel index={4} label="História" />
         <h2

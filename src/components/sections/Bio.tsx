@@ -78,7 +78,7 @@ function BioText({ words = false }: { words?: boolean }) {
 // bio para uma linha nova.)
 export default function Bio() {
   return (
-    <section id="sobre" aria-labelledby="sobre-titulo" className="py-section">
+    <section id="sobre" aria-labelledby="sobre-titulo" className="pt-section">
       <div className="page-grid gap-y-12 lg:gap-y-20">
         <SectionLabel index={2} label="Sobre" />
 

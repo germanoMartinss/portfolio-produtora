@@ -35,8 +35,12 @@
   --gutter: clamp(1.5rem, 0.8932rem + 2.589vw, 4rem);
   /* Espaço entre colunas do grid. */
   --grid-gap: clamp(1rem, 0.7573rem + 1.0356vw, 2rem);
-  /* Respiro vertical entre seções ("cortes" do filme). */
-  --section-y: clamp(6rem, 4.0583rem + 8.2848vw, 14rem);
+  /* Respiro vertical entre seções ("cortes" do filme): 64px → 112px.
+     Cada seção usa só padding de CIMA (pt-section) — com padding em cima
+     e embaixo, o espaço entre duas seções seria a soma dos dois (era o
+     vazio enorme de antes). Exceções: seções com fundo próprio (Marcas)
+     usam py-section, e o rodapé fecha a página com o seu padding de baixo. */
+  --section-y: clamp(4rem, 3.272rem + 3.107vw, 7rem);
   /* Colunas do grid: 4 no mobile, 12 a partir de 768px (ver abaixo). */
   --grid-cols: 4;
 
@@ -83,7 +87,7 @@
   /* Fraunces itálica (arquivo separado, sem preload — ver app/layout.tsx). */
   --font-serif-italic: var(--font-serif-italic);
 
-  /* Espaçamentos nomeados: px-gutter, py-section, gap-grid... */
+  /* Espaçamentos nomeados: px-gutter, pt-section, gap-grid... */
   --spacing-gutter: var(--gutter);
   --spacing-grid: var(--grid-gap);
   --spacing-section: var(--section-y);
