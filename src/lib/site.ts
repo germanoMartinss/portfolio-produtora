@@ -4,6 +4,10 @@
 // metadados, imagem de compartilhamento, JSON-LD).
 export const PRODUCER_NAME = "Bruna Rodriguez";
 
+// Função e cidades, como na linha de crédito do Hero.
+export const PRODUCER_ROLE = "Produtora audiovisual";
+export const PRODUCER_LOCATION = "São Paulo · Santos";
+
 // URL pública do site, sem barra no final. Usada em metadados (canonical,
 // Open Graph), sitemap.xml, robots.txt e JSON-LD.
 // PROVISÓRIA: o domínio ainda não foi comprado. Ao publicar, defina a

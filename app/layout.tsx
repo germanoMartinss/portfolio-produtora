@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import MotionProvider from "@/components/motion/MotionProvider";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import CustomCursor from "@/components/motion/CustomCursor";
+import Preloader, { INTRO_SCRIPT } from "@/components/layout/Preloader";
 import { PRODUCER_NAME, SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -80,11 +81,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    // suppressHydrationWarning: o script de abertura (abaixo) marca
+    // data-intro no <html> antes do React hidratar — é esperado.
     <html
       lang="pt-BR"
       className={`${fraunces.variable} ${frauncesItalic.variable} ${inter.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
+        {/* Primeiro item do body: decide se a claquete de abertura aparece
+            antes do primeiro paint (ver Preloader.tsx). */}
+        <script dangerouslySetInnerHTML={{ __html: INTRO_SCRIPT }} />
+        <Preloader />
         {/* Link "pular para o conteúdo": invisível até receber foco pelo
             teclado (primeiro Tab da página), leva direto ao <main>. */}
         <a

@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Variantes por tipo de ponteiro (não por largura de tela): "can-hover:"
+   vale só com mouse de verdade; "no-hover:" no toque (celular, tablet).
+   Assim um tablet de 768px ganha a interface de toque e uma janela estreita
+   no desktop continua com a de mouse. */
+@custom-variant can-hover (@media (hover: hover) and (pointer: fine));
+@custom-variant no-hover (@media not ((hover: hover) and (pointer: fine)));
+
 /* ==========================================================================
    Tokens do design system — fonte única de cores, tipografia, espaçamento e
    movimento. Os valores de movimento são espelhados em src/lib/motion.ts
@@ -132,14 +139,148 @@
 /* Grid editorial de 12 colunas (4 no mobile), com a margem lateral da
    página embutida. Convenção de composição:
    - rótulo de crédito (SectionLabel) na coluna da esquerda:
-     col-span-full md:col-span-2
-   - conteúdo começando na coluna 3 ou 4: md:col-start-3 / md:col-start-4
-   Os filhos usam os utilitários normais do Tailwind (col-span-*, col-start-*). */
+     col-span-full lg:col-span-2
+   - conteúdo começando na coluna 3 ou 4: lg:col-start-3 / lg:col-start-4
+   Os filhos usam os utilitários normais do Tailwind (col-span-*, col-start-*).
+   A composição em colunas (rótulo ao lado do conteúdo) só começa em lg
+   (1024px): em 768px as 2 colunas da esquerda têm ~100px e o rótulo
+   invadiria o título — abaixo de lg, rótulo e conteúdo ficam em linhas
+   próprias, ocupando a largura toda. */
 @utility page-grid {
   display: grid;
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   column-gap: var(--grid-gap);
   padding-inline: var(--gutter);
+}
+
+/* Animações de abertura (Hero e preloader) — todas em CSS puro, para
+   começarem no primeiro paint sem esperar o JavaScript (o Hero é o LCP).
+   Só transform/opacity. Com movimento reduzido, a regra global em
+   @layer base as deixa instantâneas e o preloader nem aparece. */
+@layer components {
+  /* Nome do Hero revelado linha a linha: cada linha sobe de dentro de uma
+     máscara (o pai tem overflow: hidden). O atraso de cada linha vem de
+     --line-delay (inline no Hero.tsx). */
+  .hero-line {
+    animation: line-in var(--dur-slow) var(--ease-cine) var(--line-delay, 0s) both;
+  }
+  /* Com o preloader na tela, o nome espera ele sair (~1s). */
+  [data-intro="on"] .hero-line {
+    animation-delay: calc(var(--line-delay, 0s) + 1s);
+  }
+
+  /* Preloader (claquete): só existe quando o script inline do layout marca
+     <html data-intro="on"> — primeira visita da sessão, sem movimento
+     reduzido. Sem JS, ou ao pular (data-intro="off"), some na hora. */
+  .preloader {
+    display: none;
+  }
+  [data-intro="on"] .preloader {
+    display: flex;
+    animation: preloader-out 1.2s var(--ease-cine-in-out) both;
+  }
+  /* Haste da claquete batendo. */
+  [data-intro="on"] .clapper-arm {
+    transform-origin: 0 100%;
+    animation: clapper 0.45s var(--ease-cine-in-out) 0.1s both;
+  }
+
+  /* Ponto do "REC": pisca 5 vezes e fica aceso (pisca-pisca sem fim
+     violaria a WCAG 2.2.2, que pede pausa para movimento com mais de 5 s). */
+  .rec-dot {
+    animation: rec-blink 1s steps(1, end) 5;
+  }
+
+  /* Indicador de scroll: um traço desce pela linha 3 vezes (< 5 s) e para. */
+  .scroll-cue {
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-cue::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 40%;
+    background: currentColor;
+    animation: scroll-cue 1.6s var(--ease-cine-in-out) 1.4s 3 both;
+  }
+
+  /* Hero se afastando ao rolar: o palco (vídeo + nome) encolhe e um véu
+     preto escurece o quadro, ligados à posição do scroll — scroll-driven
+     animations em CSS puro, sem JavaScript. A linha do tempo é a saída do
+     próprio Hero da tela (view-timeline na <section>): começa com o Hero
+     no topo e termina quando ele sai por cima. Navegadores sem suporte
+     (Firefox, por enquanto) e "reduzir movimento" ficam com o Hero parado. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .hero {
+        view-timeline: --hero block;
+      }
+      .hero-stage {
+        animation: hero-recede linear both;
+        animation-timeline: --hero;
+        animation-range: exit 0% exit 100%;
+      }
+      .hero-veil {
+        animation: hero-veil linear both;
+        animation-timeline: --hero;
+        animation-range: exit 0% exit 100%;
+      }
+    }
+  }
+  @keyframes hero-recede {
+    to {
+      transform: scale(0.86);
+    }
+  }
+  @keyframes hero-veil {
+    to {
+      opacity: 0.65;
+    }
+  }
+
+  @keyframes line-in {
+    from {
+      transform: translateY(110%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  @keyframes preloader-out {
+    0%,
+    62% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-100%);
+      visibility: hidden;
+    }
+  }
+  @keyframes clapper {
+    from {
+      transform: rotate(-16deg);
+    }
+    to {
+      transform: rotate(0);
+    }
+  }
+  @keyframes rec-blink {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+  @keyframes scroll-cue {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(250%);
+    }
+  }
 }
 
 /* Estilos globais SEMPRE dentro de @layer base: no Tailwind v4, CSS fora de
@@ -162,6 +303,18 @@
     opacity: 0.035;
     mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* Tamanho óptico limitado nos títulos: no máximo (opsz 144) as barras
+     horizontais da Fraunces ficam tão finas que somem em telas 1x a partir
+     de ~100px ("Hospital" vira "I Iospital", "e" vira "c"). 72/96 mantém o
+     contraste de título sem perder as barras. (O Tailwind não aceita
+     font-variation-settings nos tokens --text-*, por isso fica aqui.) */
+  .text-section {
+    font-variation-settings: "opsz" 72;
+  }
+  .text-display {
+    font-variation-settings: "opsz" 96;
   }
 
   /* Palavras em destaque dentro de títulos serifados: <em> usa a Fraunces
