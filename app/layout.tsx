@@ -3,15 +3,34 @@ import { Fraunces, Inter } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import MotionProvider from "@/components/motion/MotionProvider";
+import SmoothScroll from "@/components/motion/SmoothScroll";
+import CustomCursor from "@/components/motion/CustomCursor";
 import { PRODUCER_NAME, SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
-// Fonte serifada (títulos, nome, destaques) — carregada via next/font/google
-// e exposta como variável CSS "--font-serif" (ver app/globals.css).
+// Fonte serifada (títulos, nome, destaques) — Fraunces variável, carregada
+// via next/font/google e exposta como "--font-serif" (ver app/globals.css).
+// Sem "weight": um arquivo só cobre todos os pesos (eixo wght). Dos eixos
+// extras, só o tamanho óptico (opsz: desenho mais fino e contrastado nos
+// títulos gigantes, automático) e o SOFT (utilitário soft-*) — o WONK
+// ficaria de fora de qualquer jeito e só pesaria o arquivo.
 const fraunces = Fraunces({
   variable: "--font-serif",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  style: "normal",
+  axes: ["opsz", "SOFT"],
+});
+
+// Itálico da Fraunces para palavras de destaque nos títulos (<em> dentro de
+// .font-serif). Arquivo separado e SEM preload: só o regular é pré-carregado,
+// para o itálico não disputar banda com o LCP (Hero). Até ele chegar, o
+// navegador mostra o itálico sintetizado da fonte de fallback.
+const frauncesItalic = Fraunces({
+  variable: "--font-serif-italic",
+  subsets: ["latin"],
+  style: "italic",
+  axes: ["opsz", "SOFT"],
+  preload: false,
 });
 
 // Fonte sans-serif (corpo de texto) — exposta como "--font-sans".
@@ -62,7 +81,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${frauncesItalic.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans">
         {/* Link "pular para o conteúdo": invisível até receber foco pelo
@@ -78,6 +97,10 @@ export default function RootLayout({
           {/* Conteúdo específico de cada página (ex.: app/page.tsx) */}
           {children}
           <Footer />
+          {/* Acabamento só para mouse (cada um se desliga sozinho no toque
+              e com "reduzir movimento" — ver os componentes). */}
+          <SmoothScroll />
+          <CustomCursor />
         </MotionProvider>
       </body>
     </html>

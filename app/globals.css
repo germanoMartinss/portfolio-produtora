@@ -1,12 +1,65 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   Tokens do design system — fonte única de cores, tipografia, espaçamento e
+   movimento. Os valores de movimento são espelhados em src/lib/motion.ts
+   (framer-motion não lê variáveis CSS); ao mudar um, mude o outro.
+   ========================================================================== */
+
 :root {
+  /* Cores ------------------------------------------------------------------ */
   --background: #ffffff;
   --foreground: #0a0a0a;
-  --muted: #6b6b6b;
+  --muted: #6b6b6b; /* 5,3:1 sobre branco — passa no AA para texto corrido */
 
-  --accent-blue: #2563eb;
+  --accent-blue: #2563eb; /* única cor de destaque */
   --accent: var(--accent-blue);
+  /* Azul mais claro para texto sobre fundo preto: #2563eb dá só 3,8:1 sobre
+     #0a0a0a; este dá ~7,7:1 (AA e AAA). */
+  --accent-on-dark: #60a5fa;
+
+  /* Linhas finas de divisão (estilo créditos), no claro e no escuro. */
+  --line: rgb(10 10 10 / 0.12);
+  --line-on-dark: rgb(255 255 255 / 0.16);
+
+  /* Espaçamento fluido (375px → 1920px) ------------------------------------- */
+  /* Margem lateral da página: 24px no mobile (o antigo px-6) até 64px no
+     desktop (o antigo sm:px-16), mantendo o alinhamento com o Header. */
+  --gutter: clamp(1.5rem, 0.8932rem + 2.589vw, 4rem);
+  /* Espaço entre colunas do grid. */
+  --grid-gap: clamp(1rem, 0.7573rem + 1.0356vw, 2rem);
+  /* Respiro vertical entre seções ("cortes" do filme). */
+  --section-y: clamp(6rem, 4.0583rem + 8.2848vw, 14rem);
+  /* Colunas do grid: 4 no mobile, 12 a partir de 768px (ver abaixo). */
+  --grid-cols: 4;
+
+  /* Movimento --------------------------------------------------------------- */
+  /* Curva principal: desaceleração longa, típica de revelações de cinema. */
+  --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Para movimentos que começam e terminam parados (cortinas, trocas). */
+  --ease-cine-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 200ms; /* microinterações: hover, cor, cursor */
+  --dur-base: 600ms; /* entradas de elementos */
+  --dur-slow: 1000ms; /* revelações por máscara */
+  --dur-reveal: 1200ms; /* abertura do Hero */
+}
+
+@media (min-width: 768px) {
+  :root {
+    --grid-cols: 12;
+  }
+}
+
+/* Movimento reduzido: as durações viram praticamente zero, então tudo que
+   usa os tokens já nasce "parado" (complementa a regra global em @layer base
+   e o MotionConfig do framer-motion). */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 1ms;
+    --dur-base: 1ms;
+    --dur-slow: 1ms;
+    --dur-reveal: 1ms;
+  }
 }
 
 @theme inline {
@@ -15,15 +68,53 @@
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-accent-blue: var(--accent-blue);
+  --color-accent-on-dark: var(--accent-on-dark);
+  --color-line: var(--line);
+  --color-line-on-dark: var(--line-on-dark);
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
+  /* Fraunces itálica (arquivo separado, sem preload — ver app/layout.tsx). */
+  --font-serif-italic: var(--font-serif-italic);
+
+  /* Espaçamentos nomeados: px-gutter, py-section, gap-grid... */
+  --spacing-gutter: var(--gutter);
+  --spacing-grid: var(--grid-gap);
+  --spacing-section: var(--section-y);
+
+  /* Curvas como utilitários: ease-cine, ease-cine-in-out. */
+  --ease-cine: var(--ease-cine);
+  --ease-cine-in-out: var(--ease-cine-in-out);
 }
 
-/* Entrada do Hero em CSS puro (não framer-motion): começa no primeiro
-   paint, sem esperar o JavaScript hidratar — o vídeo/pôster do topo é o
-   LCP da página. Mesmos valores da animação anterior (framer "easeOut" =
-   cubic-bezier(0, 0, 0.58, 1)). Uso: classe "animate-hero-in". */
 @theme {
+  /* Escala tipográfica fluida (375px → 1920px), do menor para o maior.
+     Uso: text-label, text-body, text-lead, text-title, text-section,
+     text-display, text-monument. */
+  --text-label: clamp(0.6875rem, 0.6723rem + 0.0647vw, 0.75rem);
+  --text-label--line-height: 1.4;
+  --text-body: clamp(1rem, 0.9697rem + 0.1294vw, 1.125rem);
+  --text-body--line-height: 1.65;
+  --text-lead: clamp(1.1875rem, 1.0813rem + 0.4531vw, 1.625rem);
+  --text-lead--line-height: 1.45;
+  --text-title: clamp(1.5rem, 1.2573rem + 1.0356vw, 2.5rem);
+  --text-title--line-height: 1.1;
+  --text-section: clamp(2.5rem, 1.5291rem + 4.1424vw, 6.5rem);
+  --text-section--line-height: 0.98;
+  --text-section--letter-spacing: -0.02em;
+  --text-display: clamp(3rem, 1.301rem + 7.2492vw, 10rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.03em;
+  --text-monument: clamp(4rem, 1.0874rem + 12.4272vw, 16rem);
+  --text-monument--line-height: 0.86;
+  --text-monument--letter-spacing: -0.04em;
+
+  /* Espaçamento entre letras dos rótulos de crédito ("01 — Trabalhos"). */
+  --tracking-credits: 0.2em;
+
+  /* Entrada do Hero em CSS puro (não framer-motion): começa no primeiro
+     paint, sem esperar o JavaScript hidratar — o vídeo/pôster do topo é o
+     LCP da página. Mesmos valores da animação anterior (framer "easeOut" =
+     cubic-bezier(0, 0, 0.58, 1)). Uso: classe "animate-hero-in". */
   --animate-hero-in: hero-in 1.2s cubic-bezier(0, 0, 0.58, 1) both;
 
   @keyframes hero-in {
@@ -36,6 +127,25 @@
       transform: scale(1);
     }
   }
+}
+
+/* Grid editorial de 12 colunas (4 no mobile), com a margem lateral da
+   página embutida. Convenção de composição:
+   - rótulo de crédito (SectionLabel) na coluna da esquerda:
+     col-span-full md:col-span-2
+   - conteúdo começando na coluna 3 ou 4: md:col-start-3 / md:col-start-4
+   Os filhos usam os utilitários normais do Tailwind (col-span-*, col-start-*). */
+@utility page-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gap);
+  padding-inline: var(--gutter);
+}
+
+/* Eixo SOFT da Fraunces (0 = serifas secas, 100 = arredondadas).
+   Uso: soft-50, soft-100. O tamanho óptico (opsz) é automático. */
+@utility soft-* {
+  font-variation-settings: "SOFT" --value(integer);
 }
 
 /* Estilos globais SEMPRE dentro de @layer base: no Tailwind v4, CSS fora de
@@ -60,10 +170,43 @@
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
 
+  /* Palavras em destaque dentro de títulos serifados: <em> usa a Fraunces
+     itálica de verdade (arquivo próprio), não um itálico sintetizado. */
+  .font-serif :is(em, i) {
+    font-family: var(--font-serif-italic);
+    font-style: italic;
+  }
+
   /* Foco visível (só navegação por teclado) em tudo que é clicável. */
   :focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
+  }
+
+  /* Scroll suave (Lenis, src/components/motion/SmoothScroll.tsx). Regras
+     equivalentes ao lenis.css oficial, mantidas aqui para não carregar um
+     CSS a mais. A classe "lenis" só existe quando o Lenis está ativo. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-stopped {
+    overflow: clip;
+  }
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+
+  /* Cursor customizado (src/components/motion/CustomCursor.tsx): a classe
+     "has-custom-cursor" só entra no <html> quando o cursor está montado
+     (mouse + JS), então sem JS o cursor nativo nunca some. Sobre vídeos o
+     círculo "Play" substitui a seta. */
+  .has-custom-cursor [data-cursor="play"],
+  .has-custom-cursor [data-cursor="play"] * {
+    cursor: none;
   }
 
   /* Respeita "reduzir movimento" do sistema: transições e animações CSS

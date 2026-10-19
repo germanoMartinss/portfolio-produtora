@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
+import { pauseSmoothScroll, resumeSmoothScroll } from "@/lib/smooth-scroll";
 
 interface VideoLightboxProps {
   // URL de embed do player (YouTube, Vimeo) SEM o parâmetro de autoplay —
@@ -72,10 +73,14 @@ export default function VideoLightbox({
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = "hidden";
     if (scrollbarWidth > 0) document.body.style.paddingRight = `${scrollbarWidth}px`;
+    // O overflow hidden não segura o scroll suave (o Lenis rola a janela por
+    // código), então ele é pausado enquanto o modal está aberto.
+    pauseSmoothScroll();
 
     closeButtonRef.current?.focus();
 
     return () => {
+      resumeSmoothScroll();
       background.forEach((el) => (el.inert = false));
       document.body.style.overflow = overflow;
       document.body.style.paddingRight = paddingRight;
