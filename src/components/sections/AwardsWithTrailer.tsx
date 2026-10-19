@@ -3,6 +3,7 @@ import { trailerVideo } from "@/data/videos";
 import SectionLabel from "@/components/layout/SectionLabel";
 import { MaskReveal } from "@/components/motion/Reveal";
 import TrailerPlayer from "@/components/project/TrailerPlayer";
+import Laurel from "@/components/project/Laurel";
 
 // Seção 03 — Prêmios: lista tipográfica (ano grande em itálico + prêmio) e,
 // abaixo, o trailer de "Demônio de Maxwell" em largura total.
@@ -27,24 +28,40 @@ export default function AwardsWithTrailer() {
             algo dentro dela recebe foco (focus-within) — troca de cor
             instantânea, sem animar cor. */}
         <ol className="col-span-full grid grid-cols-subgrid border-b border-line">
-          {awards.map((award) => {
+          {awards.map((award, index) => {
             // "The Gold Movie Award – Melhor Filme": nome do prêmio em
             // destaque e a categoria logo abaixo, menor.
             const [name, category] = award.title.split(" – ");
+            // Ano só na primeira linha de cada grupo (2017 se repetiria 3
+            // vezes seguidas); nas outras ele continua no texto, para
+            // leitores de tela (sr-only — não "invisible", que esconderia
+            // deles também). Nome e projeto têm coluna explícita, então o
+            // grid não muda sem o ano.
+            const firstOfYear = index === 0 || awards[index - 1].year !== award.year;
             return (
               <li
                 key={award.id}
                 className="group col-span-full grid grid-cols-subgrid items-baseline gap-y-2 border-t border-line py-6 hover:text-accent focus-within:text-accent lg:py-8"
               >
                 {award.year && (
-                  <p className="col-span-full font-serif-italic text-section italic tabular-nums lg:col-span-3">
+                  <p
+                    className={`col-span-full font-serif-italic text-section italic tabular-nums lg:col-span-3 ${
+                      firstOfYear ? "" : "sr-only"
+                    }`}
+                  >
                     {award.year}
                   </p>
                 )}
                 <h3 className="col-span-full flex flex-col gap-1 lg:col-span-7 lg:col-start-4">
-                  <span className="font-serif text-title">{name}</span>
+                  {/* Louro antes do nome; herda a cor da linha (preto →
+                      azul no hover). 1.1em: acompanha o tamanho do nome. */}
+                  <span className="flex items-center gap-3 font-serif text-title">
+                    <Laurel className="h-[1.1em] w-[1.1em] shrink-0" />
+                    {name}
+                  </span>
+                  {/* pl: alinha a categoria com o nome, depois do louro. */}
                   {category && (
-                    <span className="text-body text-muted group-hover:text-accent group-focus-within:text-accent">
+                    <span className="pl-[calc(1.1*var(--text-title)+0.75rem)] text-body text-muted group-hover:text-accent group-focus-within:text-accent">
                       {category}
                     </span>
                   )}
