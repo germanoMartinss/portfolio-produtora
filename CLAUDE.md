@@ -176,6 +176,7 @@ Marcas (arquivo em `/logos/`, escala): Copag (`copag.png`), Mary Kay (`mary-kay.
 - Domínio não comprado: `SITE_URL` provisória (definir `NEXT_PUBLIC_SITE_URL` ao publicar).
 - Contatos (e-mail, Instagram @brurodriguezz, telefone) aguardam confirmação da cliente; Instagram/telefone não são links.
 - Instagram no Contato continua como **texto** até a Bruna confirmar o perfil (só o e-mail é link, `mailto:`).
+- Efeitos ligados ao scroll são CSS puro (scroll-driven animations, `animation-timeline`): no Firefox, que ainda não suporta, eles simplesmente não acontecem (o Hero não encolhe/escurece; o conteúdo aparece pronto). Fallback aceito.
 - Vídeo do Hero é vertical 720×1280 e não existe versão maior: em tela cheia a 1920 px fica ampliado ~2,7× e borrado. Conversar com a Bruna sobre uma versão horizontal ou em maior resolução.
 - Eyebrow azul sobre fundo preto em Brands tem contraste 3,8:1 (abaixo do AA para 12px) — decisão visual pendente.
 - Vídeo do Hero sem botão de pausa (WCAG 2.2.2) — pedido da cliente foi "sem controles"; só pausa com movimento reduzido.

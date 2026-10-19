@@ -153,6 +153,14 @@
   padding-inline: var(--gutter);
 }
 
+/* Número animável da contagem dos selos (seção Sobre): registrado como
+   inteiro para o navegador saber interpolar 0 → 10 em passos inteiros. */
+@property --n {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
 /* Animações de abertura (Hero e preloader) — todas em CSS puro, para
    começarem no primeiro paint sem esperar o JavaScript (o Hero é o LCP).
    Só transform/opacity. Com movimento reduzido, a regra global em
@@ -228,6 +236,130 @@
       }
     }
   }
+  /* --- Sobre: bio revelada palavra a palavra (Bio.tsx) -------------------
+     Duas camadas idênticas: por baixo o texto real em cinza (#6b6b6b, já
+     passa no AA); por cima uma cópia preta (aria-hidden) em que cada
+     palavra ganha opacidade numa faixa do scroll. A faixa de cada palavra
+     vem de --a/--b (inline, calculadas no servidor). Sem suporte (Firefox)
+     ou com movimento reduzido, a cópia preta fica toda visível. */
+  /* A barra de progresso da História só existe onde ela anda (vem antes
+     do @supports abaixo, que a mostra — a ordem decide o empate). */
+  .story-progress {
+    display: none;
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .bio-reveal {
+        view-timeline: --bio block;
+      }
+      .bio-word {
+        animation: fade-in linear both;
+        animation-timeline: --bio;
+        animation-range: var(--a) var(--b);
+      }
+
+      /* --- Sobre: números contando de 0 até o valor final --------------
+         O número real fica no HTML (.count-final) e só é trocado pelo
+         contador (::after, com a propriedade registrada --n) onde há
+         suporte. A contagem acompanha a entrada dos números na tela.
+         Número final e contador na mesma célula de grid: o final fica
+         invisível mas reserva a largura exata (sem empurrar o "+"). */
+      .stats {
+        view-timeline: --stats block;
+      }
+      .count {
+        display: inline-grid;
+      }
+      .count-final {
+        grid-area: 1 / 1;
+        visibility: hidden;
+      }
+      /* contain: inline-size — o contador não conta para a largura da
+         célula (que fica a do número final); ele ocupa essa largura,
+         alinhado à direita, mesmo quando um dígito do meio da contagem é
+         mais largo que o final ("0" é mais largo que "2"). */
+      .count::after {
+        grid-area: 1 / 1;
+        contain: inline-size;
+        text-align: right;
+        white-space: nowrap;
+        counter-reset: n var(--n);
+        content: counter(n);
+        animation: count-up linear both;
+        animation-timeline: --stats;
+        animation-range: entry 0% cover 45%;
+      }
+
+      /* --- Minha História: parágrafos entram e saem; progresso ---------
+         Só no desktop (lg), onde a foto fica sticky ao lado. Cada
+         parágrafo fica 100% visível no meio da tela (25%–75% da sua
+         passagem) e some nas bordas. A barra sob a foto enche conforme os
+         3 parágrafos passam — timeline-scope deixa a barra (na coluna da
+         foto) usar a linha do tempo da coluna de texto. */
+      @media (min-width: 1024px) {
+        .story {
+          timeline-scope: --story;
+        }
+        .story-steps {
+          view-timeline: --story block;
+        }
+        .story-step {
+          animation: step-through linear both;
+          animation-timeline: view();
+          animation-range: cover 0% cover 100%;
+        }
+        .story-progress {
+          display: block;
+        }
+        .story-progress-fill {
+          animation: grow-x linear both;
+          animation-timeline: --story;
+          animation-range: contain 0% contain 100%;
+        }
+      }
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes count-up {
+    from {
+      --n: 0;
+    }
+    to {
+      --n: var(--to);
+    }
+  }
+  @keyframes step-through {
+    0% {
+      opacity: 0;
+      transform: translateY(3rem);
+    }
+    25%,
+    75% {
+      opacity: 1;
+      transform: none;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-3rem);
+    }
+  }
+  @keyframes grow-x {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
   @keyframes hero-recede {
     to {
       transform: scale(0.86);

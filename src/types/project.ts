@@ -24,6 +24,18 @@ export interface Brand {
   clipPath?: string;
 }
 
+// Trecho de um parágrafo da bio (src/data/about.ts): texto corrido ou um
+// nome de marca destacado em negrito.
+export type BioSegment = string | { strong: string };
+
+// Número de destaque da seção Sobre ("10+ anos de experiência").
+export interface Highlight {
+  value: number;
+  // Sufixo depois do número (ex.: "+").
+  suffix?: string;
+  label: string;
+}
+
 // Um vídeo em destaque (src/data/videos.ts), usado pelos cards de vídeo
 // (VideoCard.tsx) nas seções FeaturedVideos, BehindTheScenes e pelo
 // trailer em AwardsWithTrailer.

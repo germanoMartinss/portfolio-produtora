@@ -22,8 +22,10 @@ export default function SectionLabel({
   const number = String(index).padStart(2, "0");
 
   return (
+    // self-start: no topo da linha do grid (esticado na altura da linha, o
+    // conteúdo centralizado desceria para o meio de uma foto alta ao lado).
     <p
-      className={`flex items-center gap-3 text-label font-medium uppercase tracking-credits ${
+      className={`flex items-center gap-3 self-start text-label font-medium uppercase tracking-credits ${
         tone === "dark" ? "text-white" : "text-foreground"
       } ${className}`}
     >
