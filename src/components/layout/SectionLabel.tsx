@@ -1,7 +1,7 @@
 // Rótulo numerado de seção, no estilo de crédito de filme: "01 — Trabalhos".
 // Server Component. Por padrão ocupa a coluna da esquerda do page-grid
-// (col-span-full no mobile, 2 colunas a partir de md), deixando o conteúdo
-// da seção começar na coluna 3 ou 4 — passe className para mudar isso.
+// (linha própria até 1024px, 2 colunas a partir de lg), deixando o
+// conteúdo da seção começar na coluna 3 ou 4 — passe className para mudar.
 
 interface SectionLabelProps {
   // Número da seção na ordem da página (1 → "01").
@@ -17,13 +17,13 @@ export default function SectionLabel({
   index,
   label,
   tone = "light",
-  className = "col-span-full md:col-span-2",
+  className = "col-span-full lg:col-span-2",
 }: SectionLabelProps) {
   const number = String(index).padStart(2, "0");
 
   return (
     <p
-      className={`flex items-baseline gap-3 text-label font-medium uppercase tracking-credits ${
+      className={`flex items-center gap-3 text-label font-medium uppercase tracking-credits ${
         tone === "dark" ? "text-white" : "text-foreground"
       } ${className}`}
     >
@@ -33,7 +33,7 @@ export default function SectionLabel({
         {number}
       </span>
       {/* Travessão decorativo: leitores de tela leem só "01 Trabalhos". */}
-      <span aria-hidden="true" className="h-px w-6 self-center bg-current opacity-40" />
+      <span aria-hidden="true" className="h-px w-6 bg-current opacity-40" />
       <span>{label}</span>
     </p>
   );

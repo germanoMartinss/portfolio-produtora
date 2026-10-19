@@ -1,9 +1,16 @@
 "use client";
 
-import { useEffect, useId, useRef, type RefObject } from "react";
+import { useEffect, useId, useRef, useState, type RefObject } from "react";
 import { createPortal } from "react-dom";
-import { motion } from "framer-motion";
+import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 import { pauseSmoothScroll, resumeSmoothScroll } from "@/lib/smooth-scroll";
+import { DURATION, TRANSITION } from "@/lib/motion";
+
+// "sizes" da thumbnail usada como "ponte" visual (lista de trabalhos e
+// lightbox usam o mesmo valor): com o mesmo sizes, o navegador escolhe o
+// mesmo arquivo do srcset e a imagem já está em cache quando o player abre.
+export const THUMB_SIZES = "(min-width: 768px) 400px, 50vw";
 
 interface VideoLightboxProps {
   // URL de embed do player (YouTube, Vimeo) SEM o parâmetro de autoplay —
@@ -15,10 +22,19 @@ interface VideoLightboxProps {
   // foco volta para ele — sem isso, quem navega por teclado "cai" no topo
   // da página.
   returnFocusRef?: RefObject<HTMLElement | null>;
+  // Transição de elemento compartilhado: se a thumbnail que abriu o vídeo
+  // tem o mesmo layoutId, a caixa do player "nasce" dela e cresce até o
+  // centro da tela. Sem layoutId (ex.: aberto pelo teclado, sem thumbnail
+  // visível), a caixa só aparece com fade + leve zoom.
+  layoutId?: string;
+  // Thumbnail mostrada dentro da caixa enquanto ela cresce; o iframe só
+  // entra no fim da transição (um iframe sendo escalado fica distorcido).
+  thumbnailUrl?: string;
 }
 
 // Modal (dialog acessível) em tela cheia que reproduz um vídeo dentro de
-// um <iframe>. Usado por todas as seções que têm cards de vídeo clicáveis.
+// um <iframe>. Usado por todas as seções que têm vídeos clicáveis. Para a
+// animação de saída, quem usa deve envolvê-lo em <AnimatePresence>.
 //
 // Acessibilidade:
 // - role="dialog" + aria-modal + título acessível (aria-labelledby);
@@ -27,15 +43,18 @@ interface VideoLightboxProps {
 // - o foco vai para o botão Fechar ao abrir e fica preso dentro do modal
 //   (sentinelas de foco antes/depois, necessárias porque o iframe é de
 //   outra origem e não dá para interceptar o Tab dentro dele);
-// - Esc fecha; o foco volta ao card que abriu; o scroll do fundo é
-//   bloqueado.
+// - Esc fecha; o foco volta ao elemento que abriu; o scroll do fundo é
+//   bloqueado (inclusive o scroll suave do Lenis).
 export default function VideoLightbox({
   embedUrl,
   title,
   onClose,
   returnFocusRef,
+  layoutId,
+  thumbnailUrl,
 }: VideoLightboxProps) {
   const titleId = useId();
+  const reduce = useReducedMotion();
   // Acrescenta autoplay=1 preservando parâmetros que a URL já tenha
   // (ex.: "?dnt=1" do Vimeo).
   const src = new URL(embedUrl);
@@ -43,6 +62,16 @@ export default function VideoLightbox({
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  // O iframe só é montado quando a caixa terminou de crescer.
+  const [ready, setReady] = useState(!layoutId);
+
+  // Garantia: se a animação de layout não acontecer (movimento reduzido, ou
+  // a thumbnail de origem não estava na tela), libera o iframe mesmo assim.
+  useEffect(() => {
+    if (ready) return;
+    const timer = setTimeout(() => setReady(true), reduce ? 0 : DURATION.base * 1000 + 150);
+    return () => clearTimeout(timer);
+  }, [ready, reduce]);
 
   // Permite fechar o modal apertando a tecla Esc.
   useEffect(() => {
@@ -97,7 +126,8 @@ export default function VideoLightbox({
       aria-labelledby={titleId}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.25 }}
+      exit={{ opacity: 0 }}
+      transition={TRANSITION.fast}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 sm:p-8"
       onClick={onClose}
     >
@@ -109,33 +139,46 @@ export default function VideoLightbox({
       {/* Sentinela: Shift+Tab a partir do botão Fechar leva ao iframe. */}
       <span tabIndex={0} onFocus={() => iframeRef.current?.focus()} />
 
+      {/* 44px: alvo de toque mínimo. */}
       <button
         ref={closeButtonRef}
         type="button"
         onClick={onClose}
         aria-label="Fechar vídeo"
-        className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full text-2xl text-white/80 transition hover:text-white sm:right-8 sm:top-8"
+        className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full text-2xl text-white transition-transform duration-(--dur-fast) hover:rotate-90 sm:right-8 sm:top-8"
       >
         &times;
       </button>
 
-      {/* Caixa do vídeo em si. stopPropagation evita que um clique aqui
-          dentro feche o modal (só clicar fora, no fundo escuro, fecha). */}
+      {/* Caixa do vídeo em si. Com layoutId, o framer-motion a anima a
+          partir da posição/tamanho da thumbnail de origem (só transform).
+          stopPropagation evita que um clique aqui dentro feche o modal (só
+          clicar fora, no fundo escuro, fecha). */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.94 }}
+        layoutId={layoutId}
+        initial={layoutId ? false : { opacity: 0, scale: 0.94 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
-        className="relative aspect-video w-full max-w-4xl overflow-hidden rounded-lg bg-black"
+        // Saída curta (0,2 s): o foco só volta para quem abriu quando o
+        // dialog termina de sair, então ela não pode se arrastar.
+        exit={layoutId ? undefined : { opacity: 0, scale: 0.94, transition: TRANSITION.fast }}
+        transition={TRANSITION.base}
+        onLayoutAnimationComplete={() => setReady(true)}
+        className="relative aspect-video w-full max-w-5xl overflow-hidden bg-black"
         onClick={(event) => event.stopPropagation()}
       >
-        <iframe
-          ref={iframeRef}
-          src={src.toString()}
-          title={title}
-          className="absolute inset-0 h-full w-full"
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
-          allowFullScreen
-        />
+        {thumbnailUrl && (
+          <Image src={thumbnailUrl} alt="" fill sizes={THUMB_SIZES} className="object-cover" />
+        )}
+        {ready && (
+          <iframe
+            ref={iframeRef}
+            src={src.toString()}
+            title={title}
+            className="absolute inset-0 h-full w-full"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+            allowFullScreen
+          />
+        )}
       </motion.div>
 
       {/* Sentinela: Tab saindo do iframe volta para o botão Fechar. */}

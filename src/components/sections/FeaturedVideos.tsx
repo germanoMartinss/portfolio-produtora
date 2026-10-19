@@ -1,29 +1,31 @@
 import { featuredVideos } from "@/data/videos";
-import VideoGallery from "@/components/project/VideoGallery";
+import SectionLabel from "@/components/layout/SectionLabel";
+import { MaskReveal } from "@/components/motion/Reveal";
+import WorkList from "@/components/project/WorkList";
 
-// Seção "Vídeos em Destaque": grid de 3 vídeos com marcas grandes.
-// id="trabalhos" é o alvo de âncoras internas do site (ex.: um link
-// "ver trabalhos" em outra seção poderia apontar para #trabalhos).
-// Server Component: só o grid (VideoGallery) roda no navegador.
+// Seção 01 — Trabalhos: lista tipográfica com os vídeos para grandes marcas
+// (ver WorkList.tsx). id="trabalhos" é o alvo do link do Header e do
+// "Role" do Hero.
+// Server Component: só a lista (WorkList) roda no navegador.
 export default function FeaturedVideos() {
   return (
-    <section id="trabalhos" className="w-full px-6 py-8 sm:py-14">
-      {/* Cabeçalho centralizado da seção. */}
-      <div className="mx-auto mb-10 flex max-w-xl flex-col items-center gap-3 text-center">
-        <p className="text-xs font-medium uppercase tracking-widest text-accent">
-          Vídeos em Destaque
-        </p>
-        <h2 className="font-serif text-4xl font-medium tracking-tight sm:text-5xl">
-          Trabalhos com Grandes Marcas
+    <section id="trabalhos" aria-labelledby="trabalhos-titulo" className="py-section">
+      {/* Composição do page-grid (a partir de lg): rótulo de crédito nas 2
+          colunas da esquerda, título a partir da coluna 3; a lista ocupa as
+          12 colunas (subgrid), para o número de cada linha cair na coluna
+          do rótulo. Abaixo de lg, tudo empilhado na largura toda. */}
+      <div className="page-grid gap-y-12 lg:gap-y-20">
+        <SectionLabel index={1} label="Trabalhos" className="col-span-full lg:col-span-2 lg:pt-[0.9em]" />
+        <h2
+          id="trabalhos-titulo"
+          className="col-span-full font-serif text-section lg:col-span-10 lg:col-start-3"
+        >
+          <MaskReveal>
+            Trabalhos com grandes <em>marcas</em>
+          </MaskReveal>
         </h2>
+        <WorkList videos={featuredVideos} />
       </div>
-
-      {/* Grid full-bleed: 1 coluna no mobile, 3 colunas a partir de "sm". */}
-      <VideoGallery
-        videos={featuredVideos}
-        className="grid grid-cols-1 gap-4 sm:grid-cols-3"
-        sizes="(min-width: 640px) 33vw, 100vw"
-      />
     </section>
   );
 }

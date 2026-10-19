@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, type HTMLMotionProps } from "framer-motion";
+import { TRANSITION, VIEWPORT } from "@/lib/motion";
 
 // Wrappers de animação ("ilhas" client). Assim as seções continuam sendo
 // Server Components (sem JS próprio no navegador) e só estes invólucros
@@ -55,5 +56,43 @@ export function RevealItem({ y = 16, duration = 0.5, ...props }: RevealProps) {
       }}
       {...props}
     />
+  );
+}
+
+// Revelação por máscara (títulos): o texto sobe de dentro de uma "janela"
+// com overflow hidden, como um letreiro entrando em quadro. O whileInView
+// fica na máscara (o texto, deslocado para fora dela, teria interseção zero
+// com a tela e nunca dispararia); a máscara passa o estado ao texto via
+// variants. O py/-my negativo dá folga para não cortar acentos e
+// descendentes com line-height apertado. Renderiza <span> (block), para
+// poder ficar dentro de <h2>/<h3>.
+// Com "reduzir movimento", o MotionConfig pula o deslocamento: o texto já
+// aparece no lugar.
+export function MaskReveal({
+  children,
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  return (
+    <motion.span
+      initial="hidden"
+      whileInView="show"
+      viewport={VIEWPORT}
+      className={`-mb-[0.2em] -mt-[0.1em] block overflow-hidden pb-[0.2em] pt-[0.1em] ${className}`}
+    >
+      <motion.span
+        className="block"
+        variants={{
+          hidden: { y: "110%" },
+          show: { y: 0, transition: { ...TRANSITION.slow, delay } },
+        }}
+      >
+        {children}
+      </motion.span>
+    </motion.span>
   );
 }
